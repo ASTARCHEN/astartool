@@ -13,7 +13,7 @@ __author__ = 'A.Star'
 
 def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
     """
-    通过filepath生成setup.py的install_requires_
+    通过filepath生成setup.py的install_requires
     :param filepath:
     :param encoding:
     :return:

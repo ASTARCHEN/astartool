@@ -11,6 +11,8 @@
 __author__ = 'A.Star'
 
 from astartool.common import hex_allowed_string
+import numpy as np
+from random import randint
 
 
 def ishex(s: str):
@@ -45,3 +47,54 @@ def lcm(a: int, b: int):
     :return:
     """
     return a // gcd(a, b) * b
+
+
+def get_primes(number):
+    """
+    得到小于num的质数
+    :param number:
+    :return:
+    """
+    w = [True] * number
+    li_number = []
+    for i in range(2, number):
+        if w[i]:
+            for j in range(i * i, number, i):
+                w[j] = False
+            li_number.append(i)
+    return li_number
+
+
+def prime_factorization(number: int, li_number=None):
+    """
+    把一个数拆成其质因数之积
+    :param number:
+    :param li_number: 素数列表
+    :return:
+    """
+    if li_number is None:
+        li_number = get_primes(int(np.sqrt(number)) + 1)
+    li = []
+    for k in li_number:
+        while not (number % k):
+            li.append(k)
+            number /= k
+        if number == 1:
+            break
+    return li
+
+
+def is_prime(number: (str, int), itor=10):
+    """
+    快速判断一个数是否为素数
+    :param number:
+    :param itor:
+    :return:
+    """
+    if not isinstance(number, int):
+        number = int(number)
+    for i in range(itor):
+        a = randint(1, number - 1)
+        if pow(a, number - 1, number) != 1:
+            return False
+    return True
