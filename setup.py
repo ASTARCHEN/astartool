@@ -9,8 +9,9 @@
 
 
 from setuptools import setup, find_packages
-from apihelper import __version__
+from astartool import __version__
 from astartool.setuptool import load_install_requires
+
 setup(
     name='astartool',
     version=__version__,
