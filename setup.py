@@ -16,7 +16,7 @@ setup(
     name='astartool',
     version=__version__,
     description=(
-        'content audit framework for python'
+        'toolkit for python'
     ),
     long_description=open('description.rst').read(),
     author='A.Star',

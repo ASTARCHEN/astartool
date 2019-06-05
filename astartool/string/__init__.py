@@ -4,16 +4,10 @@
 # @contact: astar@snowland.ltd
 # @site: www.snowland.ltd
 # @file: __init__.py.py
-# @time: 2019/5/29 11:25
+# @time: 2019/6/3 11:43
 # @Software: PyCharm
 
 
 __author__ = 'A.Star'
 
-from astartool.setuptool import get_version
-
-version = (0, 0, 2, "alpha", 1)
-__version__ = get_version(version)
-__all__ = [
-    'setuptool', 'random', 'number', 'version', 'common', 'string'
-]
+from astartool.string._string import *

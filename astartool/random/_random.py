@@ -10,7 +10,7 @@
 
 __author__ = 'A.Star'
 
-from random import choices
+from random import choices, randint
 from astartool.common import *
 from astartool.number import ishex
 from pysmx.SM3 import KDF
@@ -55,11 +55,12 @@ def generate_password(n: int = 32, allow_chars=password_allowed_string):
     return random_string(n, allow_chars)
 
 
-def security_random_hex(seed: (str, bytes), k: int) -> str:
+def security_random_hex(seed: (str, bytes), k: int, encoding='utf8') -> str:
     """
     生成随机16进制数
     :param seed:
     :param k:
+    :param encoding:
     :return:
     """
     if isinstance(seed, bytes):
@@ -68,5 +69,9 @@ def security_random_hex(seed: (str, bytes), k: int) -> str:
         if ishex(seed):
             z = seed
         else:
-            z = seed.encode().hex()
+            z = seed.encode(encoding).hex()
     return KDF(z, k)
+
+
+def random_ip():
+    return '.'.join([str(randint(0, 255)) for _ in range(4)])

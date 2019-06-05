@@ -10,7 +10,7 @@
 
 __author__ = 'A.Star'
 
-from astartool.common import hex_allowed_string
+from astartool.common import hex_allowed_string, BIT_EACH
 import numpy as np
 from random import randint
 
@@ -98,3 +98,16 @@ def is_prime(number: (str, int), itor=10):
         if pow(a, number - 1, number) != 1:
             return False
     return True
+
+
+def rotate_left(a, k, mod=32):
+    """
+    a循环左移k位
+    :param a:
+    :param k:
+    :param mod:
+    :return:
+    """
+    k %= mod
+    high, low = divmod(a, BIT_EACH[mod - k])
+    return high + low * BIT_EACH[k]
