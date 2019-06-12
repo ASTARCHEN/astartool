@@ -9,12 +9,12 @@
 
 
 from setuptools import setup, find_packages
-from astartool import __version__
-from astartool.setuptool import load_install_requires
+from astartool import version
+from astartool.setuptool import load_install_requires, get_version
 
 setup(
     name='astartool',
-    version=__version__,
+    version=get_version(version),
     description=(
         'toolkit for python'
     ),

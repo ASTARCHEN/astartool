@@ -11,7 +11,9 @@
 __author__ = 'A.Star'
 
 from astartool.string import generate_number, check_number
-
+from astartool.random import generate_password
+from astartool.common import password_allowed_string_upper
 number = generate_number(k=20)
 print(number)
 print(check_number(number))
+print(generate_password(allow_chars=password_allowed_string_upper))  # v)70d!)n6$(j%)b@^)9ga!@ot@3a!6k(
