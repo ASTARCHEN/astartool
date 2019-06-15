@@ -7,8 +7,8 @@
 # @time: 2018/9/8 1:31
 # @Software: PyCharm
 
-
-from setuptools import setup, find_packages
+from distutils.core import setup
+from setuptools import find_packages
 from astartool import version
 from astartool.setuptool import load_install_requires, get_version
 

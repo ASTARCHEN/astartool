@@ -139,43 +139,6 @@ def project_to_lines(src_project,
     walk(src_project, to_file, start_file, end_file, allow_extension, ignore)
 
 
-def modeldict_to_doc(model_dict):
-    # TODO: 模型字典转文档
-    pass
-
-
-def model_to_doc(model_path, to_file=None,
-                 version: (tuple, str) = (0, 0, 1, 'final', 0),
-                 datetime=datetime.datetime.now(),
-                 title='自动生成数据库模板头',
-                 auth='ASTARTOOL ROBOT',
-                 *, encoding='utf-8'):
-    if isinstance(version, tuple):
-        version = get_version(version)
-    if to_file is None:
-        to_file = 'database_model(auto v{}).md'.format(version)
-    model_dict = model_to_dict(model_path, encoding=encoding)
-    with open(to_file, 'w', encoding=encoding) as f:
-        ## 文件头
-        f.write("# " + title + '\n\n')
-        f.write("**Version: {}**\n".format(version))
-        f.write("**Auth:    {}**\n".format(auth))
-        f.write("**Date:    {}**\n".format(datetime))
-
-        f.write('\n\n')
-
-        for no, (each_class_key, each_class_values) in enumerate(model_dict.items()):
-            f.write(str(no) + '. ' + each_class_key + '\n\n')
-            f.write('字段|字段描述|字段类型|字段信息\n')
-            f.write(':--:|:--:|:--:|:--:|\n')
-            for item_key, item_values in each_class_values.items():
-                verbose_name = item_values.pop('verbose_name', item_key)
-                item_type = item_values.pop('type', verbose_name)
-                item_info = [field_disp_mapper.get(k, k)+':'+str(v) for k, v in item_values.items()]
-                f.write('|'.join([item_key, verbose_name, type_disp_mapper.get(item_type, item_type), ','.join(item_info)])+'\n')
-            f.write('\n')
-
-
 def model_to_dict(model_path, encoding='utf-8'):
     """
     数据库模型文件导出成dict（基于文件处理）
@@ -236,8 +199,42 @@ def model_to_dict(model_path, encoding='utf-8'):
                 continue
             dictionary[class_name] = dict(dictionary[class_name], **item)
             item = OrderedDict({})
-
+    if item is not None and item is not {}:
+        dictionary[class_name] = dict(dictionary[class_name], **item)
     return dictionary
 
+
+def model_to_doc(model_path, to_file=None,
+                 version: (tuple, str) = (0, 0, 1, 'final', 0),
+                 datetime=datetime.datetime.now(),
+                 title='自动生成数据库模板头',
+                 auth='ASTARTOOL ROBOT',
+                 *, encoding='utf-8'):
+    if isinstance(version, tuple):
+        version = get_version(version)
+    if to_file is None:
+        to_file = 'database_model(auto v{}).md'.format(version)
+    check_exist(to_file)
+    model_dict = model_to_dict(model_path, encoding=encoding)
+    with open(to_file, 'w', encoding=encoding) as f:
+        ## 文件头
+        f.write("# " + title + '\n\n')
+        f.write("**Version: {}**\n".format(version))
+        f.write("**Auth:    {}**\n".format(auth))
+        f.write("**Date:    {}**\n".format(datetime))
+
+        f.write('\n\n')
+
+        for no, (each_class_key, each_class_values) in enumerate(model_dict.items()):
+            f.write(str(no) + '. ' + each_class_key + '\n\n')
+            f.write('字段|字段描述|字段类型|字段信息\n')
+            f.write('|:--:|:--:|:--:|:--:|\n')
+            for item_key, item_values in each_class_values.items():
+                verbose_name = item_values.pop('verbose_name', item_key)
+                item_type = item_values.pop('type', verbose_name)
+                item_info = [field_disp_mapper.get(k, k) + ':' + str(v) for k, v in item_values.items()]
+                f.write('|'.join(
+                    [item_key, verbose_name, type_disp_mapper.get(item_type, item_type), ','.join(item_info)]) + '\n')
+            f.write('\n')
 
 
