@@ -227,7 +227,7 @@ def model_to_doc(model_path, to_file=None,
 
         for no, (each_class_key, each_class_values) in enumerate(model_dict.items()):
             f.write(str(no) + '. ' + each_class_key + '\n\n')
-            f.write('字段|字段描述|字段类型|字段信息\n')
+            f.write('|字段|字段描述|字段类型|字段信息|\n')
             f.write('|:--:|:--:|:--:|:--:|\n')
             for item_key, item_values in each_class_values.items():
                 verbose_name = item_values.pop('verbose_name', item_key)
@@ -236,5 +236,4 @@ def model_to_doc(model_path, to_file=None,
                 f.write('|'.join(
                     [item_key, verbose_name, type_disp_mapper.get(item_type, item_type), ','.join(item_info)]) + '\n')
             f.write('\n')
-
 

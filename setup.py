@@ -26,7 +26,7 @@ setup(
     license='Apache v2.0',
     packages=find_packages(),
     platforms=["all"],
-    url='http://182.61.50.242:10010/algorithm/astar-contentaudit-python',
+    url='http://182.61.50.242:10010/astar/astartool',
     classifiers=[
         'Operating System :: OS Independent',
         'Intended Audience :: Developers',

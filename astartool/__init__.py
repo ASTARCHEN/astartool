@@ -12,8 +12,8 @@ __author__ = 'A.Star'
 
 from astartool.setuptool import get_version
 
-version = (0, 0, 2, "alpha", 3)
+version = (0, 0, 3, 'alpha', 1)
 __version__ = get_version(version)
 __all__ = [
-    'setuptool', 'random', 'number', 'version', 'common', 'string', 'project'
+    'setuptool', 'random', 'number', 'version', 'common', 'string', 'project', 'file'
 ]

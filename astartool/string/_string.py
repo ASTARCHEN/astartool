@@ -19,11 +19,21 @@ is_hex = ishex
 
 
 def is_email(email):
+    """
+    判断字符串是否为email
+    :param email:
+    :return:
+    """
     regex = r'^[0-9a-zA-Z_\-\.]{0,19}@[0-9a-zA-Z_\-]{1,13}\.[a-zA-Z\.]{1,7}$'
     return True if re.match(regex, email) else False
 
 
 def is_mobile(mobile):
+    """
+    判断是不是手机号
+    :param mobile:
+    :return:
+    """
     regex = r'^1[0-9]{10}$'
     return True if re.match(regex, mobile) else False
 
