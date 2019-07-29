@@ -19,11 +19,9 @@ def big_file_download(file_name):
                 else:
                     break
 
-    # 通过fileid获得文件名
     try:
         return file_iterator(file_name)
     except BaseException as e:
-
         # 没有对应的文件
         print(str(FileNotFoundError))
     return None

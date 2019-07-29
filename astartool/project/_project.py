@@ -20,9 +20,6 @@ from collections import OrderedDict
 from astartool.common import list_allow_extension, list_ignore, item_field, item_foreignkey
 from astartool.setuptool import get_version
 
-# from astartool.string import _
-
-
 type_disp_mapper = {
     'IntegerField': '整型',
     'DateTimeField': '时间类型',
@@ -139,6 +136,35 @@ def project_to_lines(src_project,
     walk(src_project, to_file, start_file, end_file, allow_extension, ignore)
 
 
+def auto_title(to_file: str,
+               version: (tuple, str) = (0, 0, 1, 'final', 0),
+               datetime=datetime.datetime.now(),
+               title='自动生成数据库模板头',
+               auth='ASTARTOOL ROBOT',
+               *, encoding='utf-8'):
+    """
+    生成导出文件的模板头
+    :param to_file: 导出文件名， 必填
+    :param version: 版本号，tuple或者string
+    :param datetime: 生成日期
+    :param title: 标题
+    :param auth: 作者
+    :param encoding: 编码方式
+    :return:
+    """
+    assert to_file is not None, "输出文件参数不能为空"
+    if isinstance(version, tuple):
+        version = get_version(version)
+    check_exist(to_file)
+    with open(to_file, 'w', encoding=encoding) as f:
+        f.write("# " + title + '\n\n')
+        f.write("**Version: {}**\n".format(version))
+        f.write("**Auth:    {}**\n".format(auth))
+        f.write("**Date:    {}**\n".format(datetime))
+
+        f.write('\n\n')
+
+
 def model_to_dict(model_path, encoding='utf-8'):
     """
     数据库模型文件导出成dict（基于文件处理）
@@ -210,21 +236,28 @@ def model_to_doc(model_path, to_file=None,
                  title='自动生成数据库模板头',
                  auth='ASTARTOOL ROBOT',
                  *, encoding='utf-8'):
+    """
+    数据库model.py导出成文件
+    :param model_path:
+    :param to_file:
+    :param version:
+    :param datetime:
+    :param title:
+    :param auth:
+    :param encoding:
+    :return:
+    """
     if isinstance(version, tuple):
         version = get_version(version)
     if to_file is None:
         to_file = 'database_model(auto v{}).md'.format(version)
-    check_exist(to_file)
+
+    # 自动模板头
+    auto_title(to_file, version=version, datetime=datetime,
+               title=title, auth=auth, encoding=encoding)
     model_dict = model_to_dict(model_path, encoding=encoding)
-    with open(to_file, 'w', encoding=encoding) as f:
-        ## 文件头
-        f.write("# " + title + '\n\n')
-        f.write("**Version: {}**\n".format(version))
-        f.write("**Auth:    {}**\n".format(auth))
-        f.write("**Date:    {}**\n".format(datetime))
 
-        f.write('\n\n')
-
+    with open(to_file, 'a+', encoding=encoding) as f:
         for no, (each_class_key, each_class_values) in enumerate(model_dict.items()):
             f.write(str(no) + '. ' + each_class_key + '\n\n')
             f.write('|字段|字段描述|字段类型|字段信息|\n')
@@ -236,4 +269,51 @@ def model_to_doc(model_path, to_file=None,
                 f.write('|'.join(
                     [item_key, verbose_name, type_disp_mapper.get(item_type, item_type), ','.join(item_info)]) + '\n')
             f.write('\n')
+
+
+def url_to_interface_template(url_path, to_file=None,
+                              version: (tuple, str) = (0, 0, 1, 'final', 0),
+                              datetime=datetime.datetime.now(),
+                              title='自动生成interface模板头',
+                              auth='ASTARTOOL ROBOT',
+                              *, encoding='utf-8'):
+    """
+    基于django的文件生成接口模板
+    :param url_path:
+    :param to_file:
+    :param version:
+    :param datetime:
+    :param title:
+    :param auth:
+    :param encoding:
+    :return:
+    """
+    if isinstance(version, tuple):
+        version = get_version(version)
+    if to_file is None:
+        to_file = 'interface(auto v{}).md'.format(version)
+    # 自动模板头
+    auto_title(to_file, version=version, datetime=datetime,
+               title=title, auth=auth, encoding=encoding)
+
+    with open(url_path, 'r', encoding=encoding) as f:
+        fs = f.read()
+
+    context = fs.split("[")[1].split("]")[0]
+
+    p = re.compile('[url|path]\((.*)\)')
+    urls_pattern = re.findall(p, context)
+    urls = []
+    for each in urls_pattern:
+        item = each.split('"')
+        if len(item) == 1:
+            item = each.split("'")
+        urls.append(item[1])
+
+    with open(to_file, 'a', encoding=encoding) as f:
+        for ind, each in enumerate(urls):
+            f.write(
+                "- {1}\n\n|||||\n|:--:|:--:|:--:|:--:|\n|名称||||\n|分类|无|||\n|method||||\n|参数||||\n|||||\n|返回||||\n|||||\n\n".format(
+                    ind, each))
+
 

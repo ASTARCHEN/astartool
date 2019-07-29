@@ -17,6 +17,12 @@ from io import BytesIO
 
 
 def base64_to_image(base64_str, image_path=None):
+    """
+    base64转图片
+    :param base64_str:
+    :param image_path:
+    :return:
+    """
     base64_data = re.sub('^data:image/.+;base64,', '', base64_str)
     byte_data = base64.b64decode(base64_data)
     image_data = BytesIO(byte_data)

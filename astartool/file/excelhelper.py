@@ -13,7 +13,7 @@ __author__ = 'A.Star'
 import xlwt
 
 
-def to_excel(data, filename: str, sheetname: str="Sheet1", fields: list = None, *,\
+def to_excel(data, filename: str, sheetname: str="Sheet1", fields: list = None, *,
              output_fields: list = None, encoding='utf-8'):
     workbook = xlwt.Workbook(encoding=encoding)
     booksheet = workbook.add_sheet(sheetname, cell_overwrite_ok=True)
