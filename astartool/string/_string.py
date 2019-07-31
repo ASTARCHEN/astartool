@@ -10,10 +10,13 @@
 
 __author__ = 'A.Star'
 
+import datetime
+import re
+
+import six
+
 from astartool.number import ishex
 from astartool.random import random_digit_string
-import re
-import datetime
 
 is_hex = ishex
 
@@ -44,8 +47,8 @@ def generate_number(k: int = 18):
     :param k:
     :return:
     """
-    assert k >= 18
-    assert not (k & 1)
+    assert k >= 18, "generate number 18 chars at least"
+    assert not (k & 1), "generate number mast be odd"
     time_str = datetime.datetime.now().strftime("%Y%m%d%H%M%S")  # 14位
     rand_k = k - 16
     middle = random_digit_string(rand_k)  # 至少4位
