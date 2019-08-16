@@ -7,10 +7,9 @@
 # @time: 2018/9/8 1:31
 # @Software: PyCharm
 
-from distutils.core import setup
 from setuptools import find_packages
 from astartool import version
-from astartool.setuptool import load_install_requires, get_version
+from astartool.setuptool import load_install_requires, get_version, setup
 
 setup(
     name='astartool',
@@ -35,6 +34,8 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Libraries'
     ],
     install_requires=load_install_requires()

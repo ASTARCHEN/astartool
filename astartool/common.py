@@ -154,6 +154,7 @@ item_foreignkey = [
     'model', 'related_name', 'on_delete'
 ]
 
+
 class ErrorCode(Enum):
     ERROR_CODE_UNKNOWN = -1  # 未知错误
     ERROR_CODE_OPERATION_FAILED = 0  # 操作失败

@@ -111,3 +111,13 @@ def rotate_left(a, k, mod=32):
     k %= mod
     high, low = divmod(a, BIT_EACH[mod - k])
     return high + low * BIT_EACH[k]
+
+
+def equals_zero(matrix, eps=1e-8):
+    """
+    判断是否是全0
+    :param matrix:
+    :param eps:
+    :return:
+    """
+    return np.all(-eps < matrix < eps)

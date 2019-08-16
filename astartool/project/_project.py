@@ -41,6 +41,9 @@ field_disp_mapper = OrderedDict({
 })
 
 
+def alert_dialog(okay_flag, okay_callback, cancel_flag, cancel_callback, donothing_callback):
+    pass
+
 def check_exist(to_file):
     if os.path.exists(to_file):
         warnings.warn('file ' + to_file + ' exist')
