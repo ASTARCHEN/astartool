@@ -10,5 +10,5 @@
 
 __author__ = 'A.Star'
 
-from astartool.setuptool._tool import *
 from astartool.setuptool._version import *
+from astartool.setuptool._tool import *

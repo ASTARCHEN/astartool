@@ -10,10 +10,11 @@
 
 __author__ = 'A.Star'
 
-import re
 import base64
-from PIL import Image
+import re
 from io import BytesIO
+
+from PIL import Image
 
 
 def base64_to_image(base64_str, image_path=None):

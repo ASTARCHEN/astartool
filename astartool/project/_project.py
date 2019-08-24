@@ -42,7 +42,18 @@ field_disp_mapper = OrderedDict({
 
 
 def alert_dialog(okay_flag, okay_callback, cancel_flag, cancel_callback, donothing_callback):
+    """
+
+    :param okay_flag:
+    :param okay_callback:
+    :param cancel_flag:
+    :param cancel_callback:
+    :param donothing_callback:
+    :return:
+    """
+    # TODO: 增加实现方法
     pass
+
 
 def check_exist(to_file):
     if os.path.exists(to_file):
@@ -318,5 +329,3 @@ def url_to_interface_template(url_path, to_file=None,
             f.write(
                 "- {1}\n\n|||||\n|:--:|:--:|:--:|:--:|\n|名称||||\n|分类|无|||\n|method||||\n|参数||||\n|||||\n|返回||||\n|||||\n\n".format(
                     ind, each))
-
-

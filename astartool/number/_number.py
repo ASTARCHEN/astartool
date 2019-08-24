@@ -113,11 +113,34 @@ def rotate_left(a, k, mod=32):
     return high + low * BIT_EACH[k]
 
 
-def equals_zero(matrix, eps=1e-8):
+def equals_zero_all(matrix, eps=1e-8):
     """
     判断是否是全0
     :param matrix:
     :param eps:
     :return:
     """
-    return np.all(-eps < matrix < eps)
+    assert eps >= 0,  "eps 应该大于0"
+    return np.all((matrix > -eps) &  (matrix < eps))
+
+
+def equals_zero_any(matrix, eps=1e-8):
+    """
+    判断是否是存在0
+    :param matrix:
+    :param eps:
+    :return:
+    """
+    assert eps >= 0,  "eps 应该大于0"
+    return np.any((matrix > -eps) & (matrix < eps))  # 不能化简
+
+
+def equals_zero(matrix, eps=1e-8):
+    """
+    判断每项是否是0
+    :param matrix:
+    :param eps:
+    :return:
+    """
+    assert eps >= 0,  "eps 应该大于0"
+    return (matrix > -eps) & (matrix < eps)  # 不能化简
