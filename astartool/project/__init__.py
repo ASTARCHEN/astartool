@@ -11,3 +11,4 @@
 __author__ = 'A.Star'
 
 from astartool.project._project import *
+from astartool.project._decorators import *

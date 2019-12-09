@@ -10,6 +10,7 @@
 
 __author__ = 'A.Star'
 from enum import Enum
+import logging
 
 hex_string = '0123456789abcdef'
 hex_string_upper = '0123456789ABCDFEF'
@@ -171,4 +172,25 @@ class ErrorCode(Enum):
     ERROR_CODE_SERVER_ERROR = 99  # 后台处于维护状态|
 
 
+LOG_LEVEL_STR = ['INFO', 'WARN', 'WARNING', 'ERROR', 'NOTSET', 'DEBUG', 'FATAL', 'CRITICAL']
+LOG_LEVEL_INT = [logging.INFO, logging.WARN, logging.WARNING, logging.ERROR, logging.NOTSET, logging.DEBUG,
+                 logging.FATAL, logging.CRITICAL]
+LOG_LEVEL_MAP_STR2INT = {
+    'INFO': logging.INFO,
+    'WARN': logging.WARN,
+    'WARNING': logging.WARN,
+    'ERROR': logging.ERROR,
+    'NOTSET': logging.NOTSET,
+    'DEBUG': logging.DEBUG,
+    'FATAL': logging.FATAL,
+    'CRITICAL': logging.CRITICAL
+}
+LOG_LEVEL_MAP_INT2STR = {
+    logging.INFO: 'INFO',
+    logging.WARN: 'WARN',
+    logging.ERROR: 'ERROR',
+    logging.NOTSET: 'NOTSET',
+    logging.DEBUG: 'DEBUG',
+    logging.FATAL: 'FATAL',
+}
 del Enum

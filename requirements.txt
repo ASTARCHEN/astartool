@@ -4,3 +4,4 @@ rarfile
 xlwt
 pillow
 six
+wrapt
