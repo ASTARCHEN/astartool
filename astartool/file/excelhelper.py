@@ -15,6 +15,16 @@ import xlwt
 
 def to_excel(data, filename: str, sheetname: str="Sheet1", fields: list = None, *,
              output_fields: list = None, encoding='utf-8'):
+    """
+    把数据转化到excel中
+    :param data:
+    :param filename:
+    :param sheetname: 表名
+    :param fields:
+    :param output_fields: 输出的标签名
+    :param encoding: 字符编码方式
+    :return:
+    """
     workbook = xlwt.Workbook(encoding=encoding)
     booksheet = workbook.add_sheet(sheetname, cell_overwrite_ok=True)
     if output_fields is None:

@@ -41,28 +41,48 @@ field_disp_mapper = OrderedDict({
 })
 
 
-def alert_dialog(okay_flag, okay_callback, cancel_flag, cancel_callback, donothing_callback):
-    """
-
-    :param okay_flag:
-    :param okay_callback:
-    :param cancel_flag:
-    :param cancel_callback:
-    :param donothing_callback:
-    :return:
-    """
-    # TODO: 增加实现方法
-    pass
+def alert_dialog(okay_flag,
+                 okay_callback,
+                 cancel_flag,
+                 cancel_callback,
+                 default_callback,
+                 show_text,
+                 okay_text='okay',
+                 cancel_text='cancel',
+                 default_text='default',
+                 *args, **kwargs):
+    txt = input(show_text)
+    if okay_flag(txt):
+        res = okay_callback(*args, **kwargs)
+        print(okay_text)
+        return res
+    elif cancel_flag(txt):
+        print(cancel_text)
+        res = cancel_callback(*args, **kwargs)
+        return res
+    else:
+        print(default_text)
+        res = default_callback(*args, **kwargs)
+        return res
 
 
 def check_exist(to_file):
     if os.path.exists(to_file):
         warnings.warn('file ' + to_file + ' exist')
-        txt = input('remove file?\n[Y]yes\n[N]no\n')
-        if txt[0] is 'Y' or txt[0] is 'y':
-            os.remove(to_file)
-        else:
-            sys.exit()
+        okay_callback = lambda f: os.remove(f)
+        default_callback = lambda: sys.exit()
+        txt = 'remove file?\n[Y]yes\n[N]no\n'
+        okay_flag = lambda t: t[0] is 'Y' or t[0] is 'y'
+
+        alert_dialog(okay_flag,
+                     okay_callback,
+                     cancel_flag=None,
+                     cancel_callback=None,
+                     default_callback=default_callback,
+                     show_text=txt,
+                     okay_text='',
+                     cancel_text='',
+                     default_text='')
 
 
 def file_to_lines(src_file,
