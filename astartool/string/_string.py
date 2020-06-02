@@ -28,7 +28,17 @@ def is_email(email):
     :return:
     """
     regex = r'^[0-9a-zA-Z_\-\.]{0,19}@[0-9a-zA-Z_\-]{1,13}\.[a-zA-Z\.]{1,7}$'
-    return True if re.match(regex, email) else False
+    return re.match(regex, email) is not None
+
+
+def is_ip(ip):
+    """
+    检验IP是否合法
+    :param ip:
+    :return:
+    """
+    regex = r'^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[1]?\d{1,2})){3}:\d{1,5}$'
+    return re.match(regex, ip) is not None
 
 
 def is_mobile(mobile):
@@ -38,7 +48,7 @@ def is_mobile(mobile):
     :return:
     """
     regex = r'^1[0-9]{10}$'
-    return True if re.match(regex, mobile) else False
+    return re.match(regex, mobile) is not None
 
 
 def generate_number(k: int = 18):
