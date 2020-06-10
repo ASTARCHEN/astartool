@@ -17,6 +17,8 @@
 # @time: 2020/5/18 0:15
 # @Software: PyCharm
 
+from collections import Iterable
+
 
 class DataNode(object):
     def __init__(self, data=None, pre=None, next=None):
@@ -24,8 +26,14 @@ class DataNode(object):
         self.pre = pre
         self.next = next
 
+    def __eq__(self, other):
+        if isinstance(other, DataNode):
+            return self.data == other.data
+        else:
+            return self.data == other
 
-class LinkedList:
+
+class LinkedList(Iterable):
     def __init__(self, seq=[], flag=True):
         """
 
@@ -35,8 +43,8 @@ class LinkedList:
         self.__count = 0
         self.pre = self
         self.next = self
-        self.extend(seq)
-        
+        self.__p = self
+        self.extend(seq, flag=flag)
 
     def append(self, p_object, flag=True):
         """
@@ -64,7 +72,7 @@ class LinkedList:
 
     def copy(self):  # real signature unknown; restored from __doc__
         """ L.copy() -> list -- a shallow copy of L """
-        return LinkedList(self)
+        return LinkedList(self, flag=False)
 
     def count(self, value):  # real signature unknown; restored from __doc__
         """ L.count(value) -> integer -- return number of occurrences of value """
@@ -135,12 +143,12 @@ class LinkedList:
         self.__count += 1
 
     def pop(self, index=-1):
-        assert abs(index) < self.__count
+        assert abs(index) <= self.__count
         if index > 0:
             if index > self.__count // 2:
                 index = index - self.__count
 
-        if index > 0:
+        if index >= 0:
             p = self.next
             ind = 0
             while ind < index:
@@ -185,40 +193,66 @@ class LinkedList:
 
     def sort(self, key=None, reverse=False):  # real signature unknown; restored from __doc__
         """ L.sort(key=None, reverse=False) -> None -- stable sort *IN PLACE* """
-        pass
+        raise Exception("method not found")
 
     def print(self):
         p = self.next
         while p != self:
-            print(p.data, '->', end='')
+            print(p.data, '->', end=' ')
             p = p.next
         print("END")
 
-    #
-    # def __add__(self, *args, **kwargs):  # real signature unknown
-    #     """ Return self+value. """
-    #     pass
-    #
-    # def __contains__(self, *args, **kwargs):  # real signature unknown
-    #     """ Return key in self. """
-    #     pass
-    #
-    # def __delitem__(self, *args, **kwargs):  # real signature unknown
-    #     """ Delete self[key]. """
-    #     pass
-    #
-    # def __eq__(self, *args, **kwargs):  # real signature unknown
-    #     """ Return self==value. """
-    #     # TODO: __eq__
-    #     pass
-    #
-    # def __getattribute__(self, *args, **kwargs):  # real signature unknown
-    #     """ Return getattr(self, name). """
-    #     pass
-    #
-    # def __getitem__(self, y):  # real signature unknown; restored from __doc__
-    #     """ x.__getitem__(y) <==> x[y] """
-    #     pass
+    def __add__(self, *args, **kwargs):  # real signature unknown
+        """ Return self+value. """
+        value = args[0]
+        if isinstance(value, Iterable):
+            if len(value) != len(self):
+                raise ValueError('error in input')
+            b = LinkedList(map(lambda a, b: a + b, self, value))
+            return b
+        else:
+            b = LinkedList(map(lambda a: a + value, self))
+            return b
+
+    def __eq__(self, *args, **kwargs):  # real signature unknown
+        """ Return self==value. """
+        value = args[0]
+        if isinstance(value, LinkedList):
+            if id(value) == id(self):
+                return True
+        if isinstance(value, Iterable):
+            if len(value) != len(self):
+                return False
+            for a, b in zip(value, self):
+                if a != b:
+                    return False
+            return True
+        return False
+
+    def __getitem__(self, y):  # real signature unknown; restored from __doc__
+        """ x.__getitem__(y) <==> x[y] """
+        if y >= len(self) or y < -len(self):
+            raise ValueError("list out of range")
+        if y > 0:
+            if y > len(self) // 2:
+                y = y - len(self)
+
+        if y >= 0:
+            p = self.next
+            ind = 0
+            while ind < y:
+                p = p.next
+                ind += 1
+
+            return p.data
+        else:
+                p = self.pre
+                ind = 0
+                while ind < y:
+                    p = p.pre
+                    ind -= 1
+                return p.data
+
     #
     # def __ge__(self, *args, **kwargs):  # real signature unknown
     #     """ Return self>=value. """
@@ -230,28 +264,39 @@ class LinkedList:
 
     def __iadd__(self, *args, **kwargs):  # real signature unknown
         """ Implement self+=value. """
+        raise Exception("method not found")
         pass
 
     def __imul__(self, *args, **kwargs):  # real signature unknown
         """ Implement self*=value. """
-        pass
-
-    def __iter__(self, *args, **kwargs):  # real signature unknown
-        """ Implement iter(self). """
+        raise Exception("method not found")
         pass
 
     def __len__(self, *args, **kwargs):  # real signature unknown
         """ Return len(self). """
-        pass
+        return self.__count
 
     def __le__(self, *args, **kwargs):  # real signature unknown
         """ Return self<=value. """
+        raise Exception("method not found")
         pass
 
     def __lt__(self, *args, **kwargs):  # real signature unknown
         """ Return self<value. """
+        raise Exception("method not found")
         pass
 
     def __mul__(self, *args, **kwargs):  # real signature unknown
         """ Return self*value.n """
+        raise Exception("method not found")
         pass
+
+    def __next__(self):
+        self.__p = self.__p.next
+        if self.__p == self:
+            raise StopIteration
+        else:
+            return self.__p.data
+
+    def __iter__(self):
+        return self
