@@ -37,8 +37,9 @@ def is_ip(ip):
     :param ip:
     :return:
     """
-    regex = r'^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[1]?\d{1,2})){3}:\d{1,5}$'
-    return re.match(regex, ip) is not None
+    compile_ip = re.compile(
+        '^(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[1-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)$')
+    return compile_ip.match(ip) is not None
 
 
 def is_mobile(mobile):

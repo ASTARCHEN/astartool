@@ -11,6 +11,7 @@
 __author__ = 'A.Star'
 
 import xlwt
+import xlrd
 
 
 def to_excel(data, filename: str, sheetname: str="Sheet1", fields: list = None, *,

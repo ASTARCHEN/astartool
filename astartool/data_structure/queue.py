@@ -24,3 +24,7 @@ class LinkedQueue(Queue):
 
     def _get(self):
         return self.queue.pop(0)
+
+    def clear(self):
+        with self.mutex:
+            self.queue.clear()

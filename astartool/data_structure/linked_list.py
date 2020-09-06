@@ -17,7 +17,8 @@
 # @time: 2020/5/18 0:15
 # @Software: PyCharm
 
-from collections import Iterable
+from collections import Iterable, Sized
+
 
 
 class DataNode(object):
@@ -32,9 +33,18 @@ class DataNode(object):
         else:
             return self.data == other
 
+    def __str__(self):
+        return self.data
 
-class LinkedList(Iterable):
-    def __init__(self, seq=[], flag=True):
+    def __del__(self):
+        self.pre = self.next = None
+        del self.next
+        del self.pre
+        del self.data
+
+
+class LinkedList(Iterable, Sized):
+    def __init__(self, seq:Iterable=[], flag=True):
         """
 
         :param seq:  初始化可迭代对象
@@ -68,11 +78,12 @@ class LinkedList(Iterable):
             t = p.next
             del p
             p = t
+        self.pre = self.next = self
         self.__count = 0
 
     def copy(self):  # real signature unknown; restored from __doc__
         """ L.copy() -> list -- a shallow copy of L """
-        return LinkedList(self, flag=False)
+        return LinkedList(self, flag=True)
 
     def count(self, value):  # real signature unknown; restored from __doc__
         """ L.count(value) -> integer -- return number of occurrences of value """
@@ -83,10 +94,12 @@ class LinkedList(Iterable):
             p = p.next
         return s
 
-    def extend(self, iterable, flag=True):
+    def extend(self, iterable:Iterable, flag=True):
         """
         :param iterable:
         :param flag: 若可迭代对象是LinkedList, 那么flag=False, 否则此参数为True
+        当flag=flase时候，只修改指针，不会新创建DataNode对象.
+        flag=True时候，会创建DataNode对象，显然flag=False更快，但是需要注意此方法需要慎用
         :return:
         """
         if flag:
@@ -95,9 +108,13 @@ class LinkedList(Iterable):
         else:
             if not isinstance(iterable, LinkedList):
                 raise ValueError('iterable must isinstance of LinkedList')
+            self.pre.next = iterable.next
+            iterable.next.pre = self.pre
             self.pre = iterable.pre
-            iterable.next = self
+            iterable.pre.next = self
             self.__count += iterable.__count
+            iterable.next = iterable.pre = iterable
+            del iterable
 
     def index(self, value, start=None, stop=None):  # real signature unknown; restored from __doc__
         """
@@ -205,11 +222,11 @@ class LinkedList(Iterable):
     def __add__(self, *args, **kwargs):  # real signature unknown
         """ Return self+value. """
         value = args[0]
-        if isinstance(value, Iterable):
+        if isinstance(value, Sized):
             if len(value) != len(self):
                 raise ValueError('error in input')
-            b = LinkedList(map(lambda a, b: a + b, self, value))
-            return b
+            c = LinkedList(map(lambda a, b: a + b, self, value))
+            return c
         else:
             b = LinkedList(map(lambda a: a + value, self))
             return b
@@ -220,7 +237,7 @@ class LinkedList(Iterable):
         if isinstance(value, LinkedList):
             if id(value) == id(self):
                 return True
-        if isinstance(value, Iterable):
+        if isinstance(value, Sized):
             if len(value) != len(self):
                 return False
             for a, b in zip(value, self):
@@ -231,28 +248,32 @@ class LinkedList(Iterable):
 
     def __getitem__(self, y):  # real signature unknown; restored from __doc__
         """ x.__getitem__(y) <==> x[y] """
-        if y >= len(self) or y < -len(self):
-            raise ValueError("list out of range")
-        if y > 0:
-            if y > len(self) // 2:
-                y = y - len(self)
+        if isinstance(y, int):
+            if y >= len(self) or y < -len(self):
+                raise ValueError("list out of range")
+            if y > 0:
+                if y > len(self) // 2:
+                    y = y - len(self)
 
-        if y >= 0:
-            p = self.next
-            ind = 0
-            while ind < y:
-                p = p.next
-                ind += 1
-
-            return p.data
-        else:
-                p = self.pre
+            if y >= 0:
+                p = self.next
                 ind = 0
                 while ind < y:
-                    p = p.pre
-                    ind -= 1
-                return p.data
+                    p = p.next
+                    ind += 1
 
+                return p.data
+            else:
+                    p = self.pre
+                    ind = 0
+                    while ind < y:
+                        p = p.pre
+                        ind -= 1
+                    return p.data
+        elif isinstance(y, slice):
+            raise Exception('method not fount')
+        else:
+            raise Exception('method not fount')
     #
     # def __ge__(self, *args, **kwargs):  # real signature unknown
     #     """ Return self>=value. """
@@ -300,3 +321,11 @@ class LinkedList(Iterable):
 
     def __iter__(self):
         return self
+
+    def __del__(self):
+        p = self.next
+        while p != self:
+            t = p.next
+            del p
+            p = t
+        del p
