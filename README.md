@@ -1,4 +1,6 @@
 # astartool
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool?ref=badge_shield)
+
 
 A.Star私房工具包
 
@@ -36,3 +38,6 @@ is_email: 判断是不是邮箱
 is_mobile: 判断是否是手机号
 generate_number: 生成n位带时间编号
 check_number: 检验生成n位带时间编号
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool?ref=badge_large)
