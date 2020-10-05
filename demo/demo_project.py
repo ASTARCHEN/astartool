@@ -10,13 +10,16 @@
 
 from astartool.project._decorators import std_logging, file_logging
 
+
 @std_logging()
 def fun(a, b):
-    return a+b
+    return a + b
+
 
 @file_logging()
 def fun2(a, b):
-    return a*b
+    return a * b
 
-print(fun(2,4))
-print(fun2(2,4))
+
+print(fun(2, 4))
+print(fun2(2, 4))

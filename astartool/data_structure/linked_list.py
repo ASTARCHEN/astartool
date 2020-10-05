@@ -8,17 +8,7 @@
 # @Software: PyCharm
 
 
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
-# @Author: 深圳星河软通科技有限公司 A.Star
-# @contact: astar@snowland.ltd
-# @site: www.astar.ltd
-# @file: _data_structure .py
-# @time: 2020/5/18 0:15
-# @Software: PyCharm
-
 from collections import Iterable, Sized
-
 
 
 class DataNode(object):
@@ -44,7 +34,7 @@ class DataNode(object):
 
 
 class LinkedList(Iterable, Sized):
-    def __init__(self, seq:Iterable=[], flag=True):
+    def __init__(self, seq: Iterable = [], flag=True):
         """
 
         :param seq:  初始化可迭代对象
@@ -53,8 +43,9 @@ class LinkedList(Iterable, Sized):
         self.__count = 0
         self.pre = self
         self.next = self
-        self.__p = self
+        self.__p = Pointer(self)
         self.extend(seq, flag=flag)
+        self.__p = Pointer(self)
 
     def append(self, p_object, flag=True):
         """
@@ -87,14 +78,14 @@ class LinkedList(Iterable, Sized):
 
     def count(self, value):  # real signature unknown; restored from __doc__
         """ L.count(value) -> integer -- return number of occurrences of value """
-        p = self.next
+        p = Pointer(self)
         s = 0
-        while p != self:
-            s += p.data == value
-            p = p.next
+        while p.has_next():
+            s += (p.data == value)
+            p.next()
         return s
 
-    def extend(self, iterable:Iterable, flag=True):
+    def extend(self, iterable: Iterable, flag=True):
         """
         :param iterable:
         :param flag: 若可迭代对象是LinkedList, 那么flag=False, 否则此参数为True
@@ -107,7 +98,9 @@ class LinkedList(Iterable, Sized):
                 self.append(each, flag)
         else:
             if not isinstance(iterable, LinkedList):
-                raise ValueError('iterable must isinstance of LinkedList')
+                for each in iterable:
+                    self.append(each, flag)
+                return
             self.pre.next = iterable.next
             iterable.next.pre = self.pre
             self.pre = iterable.pre
@@ -115,6 +108,7 @@ class LinkedList(Iterable, Sized):
             self.__count += iterable.__count
             iterable.next = iterable.pre = iterable
             del iterable
+        self.__p = Pointer(self)
 
     def index(self, value, start=None, stop=None):  # real signature unknown; restored from __doc__
         """
@@ -122,13 +116,13 @@ class LinkedList(Iterable, Sized):
         Raises ValueError if the value is not present.
         """
         # TODO: todo start and stop
-        p = self.next
+        p = Pointer(self)
         s = 0
-        while p != self:
+        while not p.is_last():
             if p.data == value:
                 return s
             s += 1
-            p = p.next
+            p.next()
         raise ValueError('value is not present')
 
     def insert(self, index, p_object, flag=True):
@@ -138,29 +132,33 @@ class LinkedList(Iterable, Sized):
         :param flag: 若是DataNode类型, 那么flag=False, 否则此参数为True
         :return:
         """
-        p = self.next
+        p = Pointer(self)
+        p.next()
         s = 0
         # TODO: index大于所有长度//2的时候反向去查
-        while p != self:
+        while p.is_last():
             if s == index:
                 break
             s += 1
-            p = p.next
+            p.next()
         if flag:
             p_object = DataNode(p_object)
-            p_object.next = p.next
-            p_object.pre = p
-            p.next = p_object
+            p_object.next = p.datanode.next
+            p_object.pre = p.datanode
+            p.datanode.next = p_object
             p_object.next.pre = p_object
         else:
-            p_object.next = p.next
-            p_object.pre = p
-            p.next = p_object
+            p_object.next = p.datanode.next
+            p_object.pre = p.datanode
+            p.datanode.next = p_object
             p_object.next.pre = p_object
         self.__count += 1
 
     def pop(self, index=-1):
-        assert abs(index) <= self.__count
+        if abs(index) <= self.__count:
+            pass
+        else:
+            raise IndexError('index not found')
         if index > 0:
             if index > self.__count // 2:
                 index = index - self.__count
@@ -213,11 +211,12 @@ class LinkedList(Iterable, Sized):
         raise Exception("method not found")
 
     def print(self):
-        p = self.next
-        while p != self:
-            print(p.data, '->', end=' ')
-            p = p.next
+        self.__p.next()
+        while not self.__p.is_last():
+            print(self.__p.data, '->', end=' ')
+            self.__p.next()
         print("END")
+        self.__p = Pointer(self)
 
     def __add__(self, *args, **kwargs):  # real signature unknown
         """ Return self+value. """
@@ -264,16 +263,55 @@ class LinkedList(Iterable, Sized):
 
                 return p.data
             else:
-                    p = self.pre
-                    ind = 0
-                    while ind < y:
-                        p = p.pre
-                        ind -= 1
-                    return p.data
+                p = self.pre
+                ind = 0
+                while ind < y:
+                    p = p.pre
+                    ind -= 1
+                return p.data
         elif isinstance(y, slice):
-            raise Exception('method not fount')
+            step = 1 if y.step is None else y.step
+            if step > 0:
+                if y.start is None:
+                    start = 0
+                elif y.start < 0:
+                    start = len(self) + y.start
+                else:
+                    start = y.start
+
+                if y.stop is None:
+                    stop = len(self)
+                elif y.stop < 0:
+                    stop = len(self) + y.stop
+                else:
+                    stop = y.stop
+            else:
+                if y.start is None:
+                    start = len(self) - 1
+                elif y.start < 0:
+                    # TODO: check it
+                    start = len(self) + y.start
+                else:
+                    start = y.start
+
+                if y.stop is None:
+                    stop = -1
+                elif y.stop < 0:
+                    # TODO: check it
+                    stop = len(self) + y.stop
+                else:
+                    stop = y.stop
+            p = Pointer(self) + start + 1
+            li = LinkedList()
+            for i in range(start, stop, step):
+                li.append(p.datanode.data)
+                p += step
+                if p.is_last():
+                    break
+            return li
         else:
             raise Exception('method not fount')
+
     #
     # def __ge__(self, *args, **kwargs):  # real signature unknown
     #     """ Return self>=value. """
@@ -313,8 +351,8 @@ class LinkedList(Iterable, Sized):
         pass
 
     def __next__(self):
-        self.__p = self.__p.next
-        if self.__p == self:
+        self.__p.next()
+        if self.__p.is_last():
             raise StopIteration
         else:
             return self.__p.data
@@ -329,3 +367,96 @@ class LinkedList(Iterable, Sized):
             del p
             p = t
         del p
+
+
+class Pointer:
+    def __init__(self, data_node: (DataNode, LinkedList)):
+        self.__p = data_node
+
+    def __add__(self, other):
+        p = self
+        if isinstance(other, int) and other > 0:
+            for _ in range(other):
+                if p.has_next():
+                    p.next()
+                else:
+                    # warnings.warn('has no next')
+                    p.next()
+                    break
+            return p
+        elif other < 0:
+            return self + (-other)
+        else:
+            return p
+
+    def __sub__(self, other):
+        p = self
+        if other > 0:
+            for _ in range(other):
+                if p.has_pre():
+                    p.pre()
+                else:
+                    # warnings.warn('has no next')
+                    p.pre()
+                    break
+            return p
+        elif other < 0:
+            return self + (-other)
+        else:
+            return p
+
+    def __iadd__(self, other):
+        if isinstance(other, int):
+            if other > 0:
+                for _ in range(other):
+                    if self.has_next():
+                        self.next()
+                    else:
+                        # warnings.warn('has no next')
+                        self.next()
+                        break
+                return self
+            else:
+                return self.__isub__(-other)
+        raise ValueError("other must > 0")
+
+    def __isub__(self, other):
+        if isinstance(other, int):
+            if other > 0:
+                for _ in range(other):
+                    if self.has_pre():
+                        self.pre()
+                    else:
+                        # warnings.warn('has no pre')
+                        self.pre()
+                        break
+                return self
+            else:
+                return self.__iadd__(-other)
+        raise ValueError("other must > 0")
+
+    def has_next(self):
+        return isinstance(self.__p.next, DataNode)
+
+    def has_pre(self):
+        return isinstance(self.__p.pre, DataNode)
+
+    def is_last(self):
+        return isinstance(self.__p, LinkedList)
+
+    def next(self):
+        self.__p = self.__p.next
+
+    def pre(self):
+        self.__p = self.__p.pre
+
+    @property
+    def data(self):
+        try:
+            return self.__p.data
+        except:
+            raise ValueError('LinkedList has no data')
+
+    @property
+    def datanode(self):
+        return self.__p

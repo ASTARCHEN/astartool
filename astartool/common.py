@@ -11,6 +11,7 @@
 __author__ = 'A.Star'
 from enum import Enum
 import logging
+from astartool.data_structure.keymap import KeyMap
 
 hex_string = '0123456789abcdef'
 hex_string_upper = '0123456789ABCDFEF'
@@ -137,7 +138,7 @@ list_ignore = [
     '.idea/'
 ]
 
-map_field_to_ = {
+map_field_to_ = KeyMap({
     'CharField': 'varchar',
     'TextField': 'text',
     'IntegerField': 'int',
@@ -146,7 +147,7 @@ map_field_to_ = {
     'DateField': 'date',
     'ForeignKey': '外键',
     # '':
-}
+})
 
 item_field = [
     'verbose_name',

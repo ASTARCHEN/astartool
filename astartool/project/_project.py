@@ -43,27 +43,31 @@ field_disp_mapper = KeyMap({
 
 
 def alert_dialog(okay_flag,
-                 okay_callback,
-                 cancel_flag,
-                 cancel_callback,
-                 default_callback,
-                 show_text,
+                 okay_callback=None,
+                 cancel_flag=False,
+                 cancel_callback=None,
+                 default_callback=None,
+                 show_text=None,
                  okay_text='okay',
                  cancel_text='cancel',
                  default_text='default',
                  *args, **kwargs):
+    res = None
     txt = input(show_text)
     if okay_flag(txt):
-        res = okay_callback(*args, **kwargs)
+        if okay_callback is not None:
+            res = okay_callback(*args, **kwargs)
         print(okay_text)
         return res
     elif cancel_flag(txt):
+        if cancel_callback is not None:
+            res = cancel_callback(*args, **kwargs)
         print(cancel_text)
-        res = cancel_callback(*args, **kwargs)
         return res
     else:
+        if default_callback is not None:
+            res = default_callback(*args, **kwargs)
         print(default_text)
-        res = default_callback(*args, **kwargs)
         return res
 
 
@@ -244,7 +248,10 @@ def model_to_dict(model_path, encoding='utf-8'):
                 item[name] = {}
                 value = col[1].strip().split('(')
                 type_name = value[0]
-                fields_string = value[1].split(')')[0]
+                try:
+                    fields_string = value[1].split(')')[0]
+                except:
+                    fields_string = col[1].strip()
                 fields_item = fields_string.split(',')
                 item[name]['type'] = type_name.split('.')[-1]
                 if item[name]['type'] != 'ForeignKey':

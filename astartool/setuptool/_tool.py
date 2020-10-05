@@ -12,6 +12,7 @@ __author__ = 'A.Star'
 
 from setuptools import setup as _setup
 import sys
+from astartool.project import alert_dialog
 
 
 def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
@@ -37,10 +38,14 @@ def setup(**attrs):
     if isinstance(version, tuple):
         if len(version) > 3:
             if version[3] not in ['F', 'f', 'final', 'Final']:
-                __alart_setup()
-                inp = input()
-                if inp in ['Y', 'y', 'yes', 'Yes', 'YES']:
-                    return _setup(**attrs)
-            else:
-                sys.exit()
+                show_text = "Version is not final, do you really wants to setup it?\n[Y] yes.\n[N] no."
+                ok_flag = lambda inp: inp[0] in ['Y', 'y']
+                yes_callback = None
+                no_callback = lambda: sys.exit()
+                alert_dialog(ok_flag,
+                             cancel_flag=True,
+                             show_text=show_text,
+                             okay_callback=yes_callback,
+                             cancel_callback=no_callback)
+
     return _setup(**attrs)
