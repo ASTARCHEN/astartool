@@ -17,6 +17,8 @@ from setuptools import setup as _setup
 
 from astartool.project import alert_dialog
 
+osp = os.path
+
 
 def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
     """
@@ -30,15 +32,14 @@ def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
     return [line.strip() for line in lines if not line.strip().startswith('#')]
 
 
-def read_file(file_name, encoding='utf-8'):
+def read_file(file_name='README.md', encoding='utf-8'):
     """
     读取本地文件
     :param file_name: 文件名
     :param encoding: 文件编码，默认utf-8
     :return:
     """
-    osp = os.path
-    return open(osp.join(osp.dirname(__file__), file_name), 'r', encoding=encoding).read()
+    return open(file_name, 'r', encoding=encoding).read()
 
 
 def __alart_setup():

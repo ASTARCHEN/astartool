@@ -6,10 +6,23 @@
 # @file: setup.py
 # @time: 2018/9/8 1:31
 # @Software: PyCharm
-
+import os
 from setuptools import find_packages
 from astartool import version
-from astartool.setuptool import load_install_requires, get_version, setup
+from astartool.setuptool import load_install_requires, get_version, setup, read_file
+
+osp = os.path
+
+
+# def read_file(file_name='README.md', encoding='utf-8'):
+#     """
+#     读取本地文件
+#     :param file_name: 文件名
+#     :param encoding: 文件编码，默认utf-8
+#     :return:
+#     """
+#     return open(osp.join(osp.dirname(__file__), file_name), 'r', encoding=encoding).read()
+
 
 setup(
     name='astartool',
@@ -17,7 +30,7 @@ setup(
     description=(
         'toolkit for python'
     ),
-    long_description=open('description.rst', encoding='utf-8').read(),
+    long_description=read_file('description.rst', encoding='utf-8'),
     author='A.Star',
     author_email='astar@snowland.ltd',
     maintainer='A.Star',

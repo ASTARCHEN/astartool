@@ -54,12 +54,12 @@ def alert_dialog(okay_flag,
                  *args, **kwargs):
     res = None
     txt = input(show_text)
-    if okay_flag(txt):
+    if okay_flag is not None and okay_flag(txt):
         if okay_callback is not None:
             res = okay_callback(*args, **kwargs)
         print(okay_text)
         return res
-    elif cancel_flag(txt):
+    elif cancel_flag is not None and cancel_flag(txt):
         if cancel_callback is not None:
             res = cancel_callback(*args, **kwargs)
         print(cancel_text)

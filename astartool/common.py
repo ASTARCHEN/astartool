@@ -176,6 +176,7 @@ class ErrorCode(Enum):
 LOG_LEVEL_STR = ['INFO', 'WARN', 'WARNING', 'ERROR', 'NOTSET', 'DEBUG', 'FATAL', 'CRITICAL']
 LOG_LEVEL_INT = [logging.INFO, logging.WARN, logging.WARNING, logging.ERROR, logging.NOTSET, logging.DEBUG,
                  logging.FATAL, logging.CRITICAL]
+
 LOG_LEVEL_MAP_STR2INT = {
     'INFO': logging.INFO,
     'WARN': logging.WARN,
@@ -186,6 +187,7 @@ LOG_LEVEL_MAP_STR2INT = {
     'FATAL': logging.FATAL,
     'CRITICAL': logging.CRITICAL
 }
+
 LOG_LEVEL_MAP_INT2STR = {
     logging.INFO: 'INFO',
     logging.WARN: 'WARN',
