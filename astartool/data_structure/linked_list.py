@@ -9,6 +9,7 @@
 
 
 from collections import Iterable, Sized
+from astartool.error import MethodNotFoundError
 
 
 class DataNode(object):
@@ -208,7 +209,7 @@ class LinkedList(Iterable, Sized):
 
     def sort(self, key=None, reverse=False):  # real signature unknown; restored from __doc__
         """ L.sort(key=None, reverse=False) -> None -- stable sort *IN PLACE* """
-        raise Exception("method not found")
+        raise MethodNotFoundError("method not found")
 
     def print(self):
         self.__p.next()
@@ -323,13 +324,11 @@ class LinkedList(Iterable, Sized):
 
     def __iadd__(self, *args, **kwargs):  # real signature unknown
         """ Implement self+=value. """
-        raise Exception("method not found")
-        pass
+        raise MethodNotFoundError("method not found")
 
     def __imul__(self, *args, **kwargs):  # real signature unknown
         """ Implement self*=value. """
-        raise Exception("method not found")
-        pass
+        raise MethodNotFoundError("method not found")
 
     def __len__(self, *args, **kwargs):  # real signature unknown
         """ Return len(self). """
@@ -337,18 +336,15 @@ class LinkedList(Iterable, Sized):
 
     def __le__(self, *args, **kwargs):  # real signature unknown
         """ Return self<=value. """
-        raise Exception("method not found")
-        pass
+        raise MethodNotFoundError("method not found")
 
     def __lt__(self, *args, **kwargs):  # real signature unknown
         """ Return self<value. """
-        raise Exception("method not found")
-        pass
+        raise MethodNotFoundError("method not found")
 
     def __mul__(self, *args, **kwargs):  # real signature unknown
         """ Return self*value.n """
-        raise Exception("method not found")
-        pass
+        raise MethodNotFoundError("method not found")
 
     def __next__(self):
         self.__p.next()
