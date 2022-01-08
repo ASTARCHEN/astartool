@@ -10,9 +10,10 @@
 
 __author__ = 'A.Star'
 
-from astartool.project import model_to_doc, model_to_dict
+from astartool.project import model_to_doc, model_to_dict, auto_title_rst
 
 if __name__ == '__main__':
     d = model_to_dict('models.py')
     print(d)
     model_to_doc('models.py')
+    auto_title_rst('readme.rst')

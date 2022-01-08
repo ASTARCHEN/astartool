@@ -13,7 +13,6 @@ from astartool.setuptool import load_install_requires, get_version, setup, read_
 
 osp = os.path
 
-
 # def read_file(file_name='README.md', encoding='utf-8'):
 #     """
 #     读取本地文件
@@ -48,6 +47,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Software Development :: Libraries'
     ],
     install_requires=load_install_requires()

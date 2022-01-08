@@ -77,7 +77,7 @@ def check_exist(to_file):
         okay_callback = lambda: os.remove(to_file)
         default_callback = lambda: sys.exit()
         txt = 'remove file?\n[Y]yes\n[N]no\n'
-        okay_flag = lambda t: t[0] is 'Y' or t[0] is 'y'
+        okay_flag = lambda t: t[0] == 'Y' or t[0] == 'y'
 
         alert_dialog(okay_flag,
                      okay_callback,
@@ -175,12 +175,13 @@ def project_to_lines(src_project,
     walk(src_project, to_file, start_file, end_file, allow_extension, ignore)
 
 
-def auto_title(to_file: str,
+def auto_title_md(to_file: str,
                version: (tuple, str) = (0, 0, 1, 'final', 0),
                datetime=datetime.datetime.now(),
                title='自动生成数据库模板头',
                auth='ASTARTOOL ROBOT',
-               *, encoding='utf-8'):
+               *,
+               encoding='utf-8'):
     """
     生成导出文件的模板头
     :param to_file: 导出文件名， 必填
@@ -203,6 +204,69 @@ def auto_title(to_file: str,
 
         f.write('\n\n')
 
+
+def auto_title_rst(to_file: str,
+               version: (tuple, str) = (0, 1, 0, 'final', 0),
+               datetime=datetime.datetime.now(),
+               title='自动生成数据库模板头',
+               auth='ASTARTOOL ROBOT',
+               *, encoding='utf-8'):
+    """
+    生成导出文件的模板头
+    :param to_file: 导出文件名， 必填
+    :param version: 版本号，tuple或者string
+    :param datetime: 生成日期
+    :param title: 标题
+    :param auth: 作者
+    :param encoding: 编码方式
+    :return:
+    """
+    assert to_file is not None, "输出文件参数不能为空"
+    if isinstance(version, tuple):
+        version = get_version(version)
+    check_exist(to_file)
+    with open(to_file, 'w', encoding=encoding) as f:
+        f.write(title+'\n')
+        f.write('=='*len(title))
+        f.write('\n\n')
+        f.write("**Version: {}**\n".format(version))
+        f.write("**Auth:    {}**\n".format(auth))
+        f.write("**Date:    {}**\n".format(datetime))
+        f.write('\n\n')
+
+
+def auto_title(to_file: str,
+               version: (tuple, str) = (0, 1, 0, 'final', 0),
+               datetime=datetime.datetime.now(),
+               title='自动生成数据库模板头',
+               auth='ASTARTOOL ROBOT',
+               *, encoding='utf-8',
+               doc_type='md'):
+    """
+    生成导出文件的模板头
+    :param to_file: 导出文件名， 必填
+    :param version: 版本号，tuple或者string
+    :param datetime: 生成日期
+    :param title: 标题
+    :param auth: 作者
+    :param encoding: 编码方式
+    :param doc_type: 文档方式，默认为markdown, 同时支持rst
+    :return:
+    """
+    if doc_type.lower() in ('md', 'markdown'):
+        auto_title_md(to_file=to_file,
+               version=version,
+               datetime=datetime,
+               title=title,
+               auth=auth,
+               encoding=encoding)
+    else:
+        auto_title_rst(to_file=to_file,
+                      version=version,
+                      datetime=datetime,
+                      title=title,
+                      auth=auth,
+                      encoding=encoding)
 
 def model_to_dict(model_path, encoding='utf-8'):
     """

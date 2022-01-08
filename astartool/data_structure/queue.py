@@ -11,10 +11,12 @@
 from queue import Queue
 from astartool.data_structure.linked_list import LinkedList
 
+
 class LinkedQueue(Queue):
     """
     链式结构实现的队列
     """
+
     def __init__(self, maxsize=0):
         super(LinkedQueue, self).__init__(maxsize)
 
