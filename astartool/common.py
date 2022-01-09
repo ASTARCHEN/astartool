@@ -11,6 +11,7 @@
 __author__ = 'A.Star'
 from enum import Enum
 import logging
+from astartool.data_structure.keymap import KeyMap
 
 hex_string = '0123456789abcdef'
 hex_string_upper = '0123456789ABCDFEF'
@@ -137,7 +138,7 @@ list_ignore = [
     '.idea/'
 ]
 
-map_field_to_ = {
+map_field_to_ = KeyMap({
     'CharField': 'varchar',
     'TextField': 'text',
     'IntegerField': 'int',
@@ -146,7 +147,7 @@ map_field_to_ = {
     'DateField': 'date',
     'ForeignKey': '外键',
     # '':
-}
+})
 
 item_field = [
     'verbose_name',
@@ -158,8 +159,8 @@ item_foreignkey = [
 
 class ErrorCode(Enum):
     ERROR_CODE_UNKNOWN = -1  # 未知错误
-    ERROR_CODE_OPERATION_FAILED = 0  # 操作失败
-    ERROR_CODE_OPERATION_SUCCESS = 1  # 操作成功
+    ERROR_CODE_OPERATION_SUCCESS = 0  # 操作成功
+    ERROR_CODE_OPERATION_FAILED = 1  # 操作失败
     ERROR_CODE_PARTNER_ERROR = 2  # 参数有误
     ERROR_CODE_TOKEN_ERROR = 3  # token失效
     ERROR_CODE_DATABASE_ERROR = 4  # 数据库错误
@@ -175,6 +176,7 @@ class ErrorCode(Enum):
 LOG_LEVEL_STR = ['INFO', 'WARN', 'WARNING', 'ERROR', 'NOTSET', 'DEBUG', 'FATAL', 'CRITICAL']
 LOG_LEVEL_INT = [logging.INFO, logging.WARN, logging.WARNING, logging.ERROR, logging.NOTSET, logging.DEBUG,
                  logging.FATAL, logging.CRITICAL]
+
 LOG_LEVEL_MAP_STR2INT = {
     'INFO': logging.INFO,
     'WARN': logging.WARN,
@@ -185,6 +187,7 @@ LOG_LEVEL_MAP_STR2INT = {
     'FATAL': logging.FATAL,
     'CRITICAL': logging.CRITICAL
 }
+
 LOG_LEVEL_MAP_INT2STR = {
     logging.INFO: 'INFO',
     logging.WARN: 'WARN',
@@ -193,4 +196,3 @@ LOG_LEVEL_MAP_INT2STR = {
     logging.DEBUG: 'DEBUG',
     logging.FATAL: 'FATAL',
 }
-del Enum

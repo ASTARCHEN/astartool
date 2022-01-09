@@ -112,6 +112,21 @@ def rotate_left(a, k, mod=32):
     return high + low * BIT_EACH[k]
 
 
+def equals_zero(matrix, eps=1e-8):
+    """
+    判断每项是否是0
+    :param matrix:
+    :param eps:
+    :return:
+    """
+    assert eps >= 0, "eps 应该大于0"
+    if isinstance(matrix, np.ndarray):
+        return (-eps < matrix) * (matrix < eps)
+    if isinstance(matrix, list):
+        return [-eps < each_x < eps for each_x in matrix]
+    raise ValueError('data must be ndarray or list')
+
+
 def equals_zero_all(matrix, eps=1e-8):
     """
     判断是否是全0
@@ -119,8 +134,7 @@ def equals_zero_all(matrix, eps=1e-8):
     :param eps:
     :return:
     """
-    assert eps >= 0, "eps 应该大于0"
-    return np.all((matrix > -eps) & (matrix < eps))
+    return np.all(equals_zero(matrix, eps=eps))
 
 
 def equals_zero_any(matrix, eps=1e-8):
@@ -130,16 +144,5 @@ def equals_zero_any(matrix, eps=1e-8):
     :param eps:
     :return:
     """
-    assert eps >= 0, "eps 应该大于0"
-    return np.any((matrix > -eps) & (matrix < eps))  # 不能化简
+    return np.any(equals_zero(matrix, eps=eps))
 
-
-def equals_zero(matrix, eps=1e-8):
-    """
-    判断每项是否是0
-    :param matrix:
-    :param eps:
-    :return:
-    """
-    assert eps >= 0, "eps 应该大于0"
-    return (matrix > -eps) & (matrix < eps)  # 不能化简

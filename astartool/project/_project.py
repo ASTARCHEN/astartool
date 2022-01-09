@@ -17,17 +17,18 @@ import sys
 import warnings
 from collections import OrderedDict
 
+from astartool.data_structure.keymap import KeyMap
 from astartool.common import list_allow_extension, list_ignore, item_field, item_foreignkey
 from astartool.setuptool import get_version
 
-type_disp_mapper = {
+type_disp_mapper = KeyMap({
     'IntegerField': '整型',
     'DateTimeField': '时间类型',
     'CharField': '变长字符串',
     'EmailField': '邮箱类型'
-}
+})
 
-field_disp_mapper = OrderedDict({
+field_disp_mapper = KeyMap({
     'type': '类型',
     'verbose_name': '名称',
     'max_length': '最大长度',
@@ -42,37 +43,41 @@ field_disp_mapper = OrderedDict({
 
 
 def alert_dialog(okay_flag,
-                 okay_callback,
-                 cancel_flag,
-                 cancel_callback,
-                 default_callback,
-                 show_text,
+                 okay_callback=None,
+                 cancel_flag=False,
+                 cancel_callback=None,
+                 default_callback=None,
+                 show_text=None,
                  okay_text='okay',
                  cancel_text='cancel',
                  default_text='default',
                  *args, **kwargs):
+    res = None
     txt = input(show_text)
-    if okay_flag(txt):
-        res = okay_callback(*args, **kwargs)
+    if okay_flag is not None and okay_flag(txt):
+        if okay_callback is not None:
+            res = okay_callback(*args, **kwargs)
         print(okay_text)
         return res
-    elif cancel_flag(txt):
+    elif cancel_flag is not None and cancel_flag(txt):
+        if cancel_callback is not None:
+            res = cancel_callback(*args, **kwargs)
         print(cancel_text)
-        res = cancel_callback(*args, **kwargs)
         return res
     else:
+        if default_callback is not None:
+            res = default_callback(*args, **kwargs)
         print(default_text)
-        res = default_callback(*args, **kwargs)
         return res
 
 
 def check_exist(to_file):
     if os.path.exists(to_file):
         warnings.warn('file ' + to_file + ' exist')
-        okay_callback = lambda f: os.remove(f)
+        okay_callback = lambda: os.remove(to_file)
         default_callback = lambda: sys.exit()
         txt = 'remove file?\n[Y]yes\n[N]no\n'
-        okay_flag = lambda t: t[0] is 'Y' or t[0] is 'y'
+        okay_flag = lambda t: t[0] == 'Y' or t[0] == 'y'
 
         alert_dialog(okay_flag,
                      okay_callback,
@@ -170,12 +175,13 @@ def project_to_lines(src_project,
     walk(src_project, to_file, start_file, end_file, allow_extension, ignore)
 
 
-def auto_title(to_file: str,
+def auto_title_md(to_file: str,
                version: (tuple, str) = (0, 0, 1, 'final', 0),
                datetime=datetime.datetime.now(),
                title='自动生成数据库模板头',
                auth='ASTARTOOL ROBOT',
-               *, encoding='utf-8'):
+               *,
+               encoding='utf-8'):
     """
     生成导出文件的模板头
     :param to_file: 导出文件名， 必填
@@ -198,6 +204,69 @@ def auto_title(to_file: str,
 
         f.write('\n\n')
 
+
+def auto_title_rst(to_file: str,
+               version: (tuple, str) = (0, 1, 0, 'final', 0),
+               datetime=datetime.datetime.now(),
+               title='自动生成数据库模板头',
+               auth='ASTARTOOL ROBOT',
+               *, encoding='utf-8'):
+    """
+    生成导出文件的模板头
+    :param to_file: 导出文件名， 必填
+    :param version: 版本号，tuple或者string
+    :param datetime: 生成日期
+    :param title: 标题
+    :param auth: 作者
+    :param encoding: 编码方式
+    :return:
+    """
+    assert to_file is not None, "输出文件参数不能为空"
+    if isinstance(version, tuple):
+        version = get_version(version)
+    check_exist(to_file)
+    with open(to_file, 'w', encoding=encoding) as f:
+        f.write(title+'\n')
+        f.write('=='*len(title))
+        f.write('\n\n')
+        f.write("**Version: {}**\n".format(version))
+        f.write("**Auth:    {}**\n".format(auth))
+        f.write("**Date:    {}**\n".format(datetime))
+        f.write('\n\n')
+
+
+def auto_title(to_file: str,
+               version: (tuple, str) = (0, 1, 0, 'final', 0),
+               datetime=datetime.datetime.now(),
+               title='自动生成数据库模板头',
+               auth='ASTARTOOL ROBOT',
+               *, encoding='utf-8',
+               doc_type='md'):
+    """
+    生成导出文件的模板头
+    :param to_file: 导出文件名， 必填
+    :param version: 版本号，tuple或者string
+    :param datetime: 生成日期
+    :param title: 标题
+    :param auth: 作者
+    :param encoding: 编码方式
+    :param doc_type: 文档方式，默认为markdown, 同时支持rst
+    :return:
+    """
+    if doc_type.lower() in ('md', 'markdown'):
+        auto_title_md(to_file=to_file,
+               version=version,
+               datetime=datetime,
+               title=title,
+               auth=auth,
+               encoding=encoding)
+    else:
+        auto_title_rst(to_file=to_file,
+                      version=version,
+                      datetime=datetime,
+                      title=title,
+                      auth=auth,
+                      encoding=encoding)
 
 def model_to_dict(model_path, encoding='utf-8'):
     """
@@ -224,6 +293,18 @@ def model_to_dict(model_path, encoding='utf-8'):
             dictionary[name] = {}
             item = {}
         elif line.startswith('  ') or line.startswith('\t'):
+            if line.startswith('        verbose_name ='):
+                if '_meta' in item:
+                    item['_meta'].update(dict(verbose_name=line.split('=')[-1].lstrip()))
+                else:
+                    item['_meta'] = dict(verbose_name=line.split('=')[-1].lstrip())
+                continue
+            if line.startswith('        verbose_name_plural ='):
+                if '_meta' in item:
+                    item['_meta'].update(dict(verbose_name_plural=line.split('=')[-1].lstrip()))
+                else:
+                    item['_meta'] = dict(verbose_name_plural=line.split('=')[-1].lstrip())
+                continue
             # 处理字段名
             col = line.split('=', 1)
             if len(col) >= 2:
@@ -231,7 +312,10 @@ def model_to_dict(model_path, encoding='utf-8'):
                 item[name] = {}
                 value = col[1].strip().split('(')
                 type_name = value[0]
-                fields_string = value[1].split(')')[0]
+                try:
+                    fields_string = value[1].split(')')[0]
+                except:
+                    fields_string = col[1].strip()
                 fields_item = fields_string.split(',')
                 item[name]['type'] = type_name.split('.')[-1]
                 if item[name]['type'] != 'ForeignKey':
@@ -297,6 +381,8 @@ def model_to_doc(model_path, to_file=None,
             f.write('|字段|字段描述|字段类型|字段信息|\n')
             f.write('|:--:|:--:|:--:|:--:|\n')
             for item_key, item_values in each_class_values.items():
+                if item_key == '_meta':
+                    continue
                 verbose_name = item_values.pop('verbose_name', item_key)
                 item_type = item_values.pop('type', verbose_name)
                 item_info = [field_disp_mapper.get(k, k) + ':' + str(v) for k, v in item_values.items()]

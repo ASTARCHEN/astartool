@@ -10,8 +10,14 @@
 
 __author__ = 'A.Star'
 
-from setuptools import setup as _setup
+import os
 import sys
+
+from setuptools import setup as _setup
+
+from astartool.project import alert_dialog
+
+osp = os.path
 
 
 def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
@@ -23,7 +29,17 @@ def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
     """
     with open(filepath, 'r', encoding=encoding) as f:
         lines = f.readlines()
-    return [line.strip() for line in lines if not line.startswith('#')]
+    return [line.strip() for line in lines if not line.strip().startswith('#')]
+
+
+def read_file(file_name='README.md', encoding='utf-8'):
+    """
+    读取本地文件
+    :param file_name: 文件名
+    :param encoding: 文件编码，默认utf-8
+    :return:
+    """
+    return open(file_name, 'r', encoding=encoding).read()
 
 
 def __alart_setup():
@@ -37,10 +53,14 @@ def setup(**attrs):
     if isinstance(version, tuple):
         if len(version) > 3:
             if version[3] not in ['F', 'f', 'final', 'Final']:
-                __alart_setup()
-                inp = input()
-                if inp in ['Y', 'y', 'yes', 'Yes', 'YES']:
-                    return _setup(**attrs)
-            else:
-                sys.exit()
+                show_text = "Version is not final, do you really wants to setup it?\n[Y] yes.\n[N] no."
+                ok_flag = lambda inp: inp[0] in ['Y', 'y']
+                yes_callback = None
+                no_callback = lambda: sys.exit()
+                alert_dialog(ok_flag,
+                             cancel_flag=True,
+                             show_text=show_text,
+                             okay_callback=yes_callback,
+                             cancel_callback=no_callback)
+
     return _setup(**attrs)

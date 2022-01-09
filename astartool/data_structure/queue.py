@@ -16,6 +16,7 @@ class LinkedQueue(Queue):
     """
     链式结构实现的队列
     """
+
     def __init__(self, maxsize=0):
         super(LinkedQueue, self).__init__(maxsize)
 
@@ -24,3 +25,7 @@ class LinkedQueue(Queue):
 
     def _get(self):
         return self.queue.pop(0)
+
+    def clear(self):
+        with self.mutex:
+            self.queue.clear()

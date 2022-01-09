@@ -11,12 +11,28 @@
 __author__ = 'A.Star'
 
 from numbers import Number
-from random import choices, randint
+from random import SystemRandom
 
 from pysmx.SM3 import KDF
 
-from astartool.common import *
+from astartool.common import (
+    alnum_string,
+    hex_allowed_string,
+    hex_string_upper,
+    hex_string,
+    digit_string,
+    password_allowed_string_upper
+)
 from astartool.number import ishex
+
+__all__ = [
+    'generate_password',
+    'random_digit_string',
+    'random_hex_string',
+    'random_ip',
+    'random_string',
+    'security_random_hex'
+]
 
 
 def random_string(n: int = 32, allow_chars=alnum_string):
@@ -26,7 +42,8 @@ def random_string(n: int = 32, allow_chars=alnum_string):
     :param allow_chars: 允许的字符串
     :return:
     """
-    return ''.join(choices(allow_chars, k=n))
+    r = SystemRandom()
+    return ''.join(r.choices(allow_chars, k=n))
 
 
 def random_hex_string(n: int = 32, upper=False):
@@ -36,7 +53,8 @@ def random_hex_string(n: int = 32, upper=False):
     :param upper:
     :return:
     """
-    return ''.join(choices(hex_string_upper, k=n)) if upper else ''.join(choices(hex_string, k=n))
+    r = SystemRandom()
+    return ''.join(r.choices(hex_string_upper, k=n)) if upper else ''.join(r.choices(hex_string, k=n))
 
 
 def random_digit_string(n: int = 32) -> str:
@@ -73,6 +91,8 @@ def security_random_hex(seed: (str, bytes), k: int, encoding='utf8') -> str:
             z = seed
         else:
             z = seed.encode(encoding).hex()
+    else:
+        raise TypeError("Isinstance(seed, (str, bytes)) Is False!")
     return KDF(z, k)
 
 
@@ -91,7 +111,8 @@ def random_ip(version='ipv4'):
 
     if isinstance(version, Number):
         if version == 4:
-            return '.'.join([str(randint(0, 255)) for _ in range(4)])
+            r = SystemRandom()
+            return '.'.join((str(r.randint(0, 255)) for _ in range(4)))
         elif version == 6:
             # TODO: IPV6
             raise ValueError('Version is not supported now')
