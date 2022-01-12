@@ -1,7 +1,4 @@
 # astartool
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool?ref=badge_shield)
-
-
 
 [![version](https://img.shields.io/pypi/v/astartool.svg)](https://pypi.python.org/pypi/astartool)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FASTARCHEN%2Fastartool?ref=badge_shield)
@@ -9,7 +6,7 @@
 [![github](https://img.shields.io/github/stars/ASTARCHEN/astartool)](https://img.shields.io/github/stars/ASTARCHEN/astartool)
 [![download](https://img.shields.io/pypi/dm/astartool.svg)](https://pypi.org/project/astartool)
 [![wheel](https://img.shields.io/pypi/wheel/astartool.svg)](https://pypi.python.org/pypi/astartool)
-[![CodeFactor](https://www.codefactor.io/repository/github/astarchen/astartool/badge/master)](https://www.codefactor.io/repository/github/astarchen/astartool/overview/master)
+[![CodeFactor](https://www.codefactor.io/repository/github/astarchen/astartool/badge/main)](https://www.codefactor.io/repository/github/astarchen/astartool/overview/main)
 ![status](https://img.shields.io/pypi/status/astartool.svg)
 
 A.Star私房工具包
