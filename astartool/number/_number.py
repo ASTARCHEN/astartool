@@ -121,9 +121,11 @@ def equals_zero(matrix, eps=1e-8):
     """
     assert eps >= 0, "eps 应该大于0"
     if isinstance(matrix, np.ndarray):
-        return (-eps < matrix) * (matrix < eps)
+        return (-eps < matrix) & (matrix < eps)
     if isinstance(matrix, list):
         return [-eps < each_x < eps for each_x in matrix]
+    if isinstance(matrix, float):
+        return -eps < matrix < eps
     raise ValueError('data must be ndarray or list')
 
 
