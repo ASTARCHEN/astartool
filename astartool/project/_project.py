@@ -44,7 +44,7 @@ field_disp_mapper = KeyMap({
 
 def alert_dialog(okay_flag,
                  okay_callback=None,
-                 cancel_flag=False,
+                 cancel_flag: (callable, bool) = lambda x: False,
                  cancel_callback=None,
                  default_callback=None,
                  show_text=None,
@@ -176,12 +176,12 @@ def project_to_lines(src_project,
 
 
 def auto_title_md(to_file: str,
-               version: (tuple, str) = (0, 0, 1, 'final', 0),
-               datetime=datetime.datetime.now(),
-               title='自动生成数据库模板头',
-               auth='ASTARTOOL ROBOT',
-               *,
-               encoding='utf-8'):
+                  version: (tuple, str) = (0, 1, 0, 'final', 0),
+                  datetime=datetime.datetime.now(),
+                  title='自动生成数据库模板头',
+                  auth='ASTARTOOL ROBOT',
+                  *,
+                  encoding='utf-8'):
     """
     生成导出文件的模板头
     :param to_file: 导出文件名， 必填
@@ -206,11 +206,11 @@ def auto_title_md(to_file: str,
 
 
 def auto_title_rst(to_file: str,
-               version: (tuple, str) = (0, 1, 0, 'final', 0),
-               datetime=datetime.datetime.now(),
-               title='自动生成数据库模板头',
-               auth='ASTARTOOL ROBOT',
-               *, encoding='utf-8'):
+                   version: (tuple, str) = (0, 1, 0, 'final', 0),
+                   datetime=datetime.datetime.now(),
+                   title='自动生成数据库模板头',
+                   auth='ASTARTOOL ROBOT',
+                   *, encoding='utf-8'):
     """
     生成导出文件的模板头
     :param to_file: 导出文件名， 必填
@@ -226,8 +226,8 @@ def auto_title_rst(to_file: str,
         version = get_version(version)
     check_exist(to_file)
     with open(to_file, 'w', encoding=encoding) as f:
-        f.write(title+'\n')
-        f.write('=='*len(title))
+        f.write(title + '\n')
+        f.write('==' * len(title))
         f.write('\n\n')
         f.write("**Version: {}**\n".format(version))
         f.write("**Auth:    {}**\n".format(auth))
@@ -255,18 +255,19 @@ def auto_title(to_file: str,
     """
     if doc_type.lower() in ('md', 'markdown'):
         auto_title_md(to_file=to_file,
-               version=version,
-               datetime=datetime,
-               title=title,
-               auth=auth,
-               encoding=encoding)
-    else:
-        auto_title_rst(to_file=to_file,
                       version=version,
                       datetime=datetime,
                       title=title,
                       auth=auth,
                       encoding=encoding)
+    else:
+        auto_title_rst(to_file=to_file,
+                       version=version,
+                       datetime=datetime,
+                       title=title,
+                       auth=auth,
+                       encoding=encoding)
+
 
 def model_to_dict(model_path, encoding='utf-8'):
     """

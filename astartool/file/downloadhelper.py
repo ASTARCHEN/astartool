@@ -6,6 +6,7 @@
 # @file: downloadhelper.py
 # @time: 2019/6/13 17:33
 # @Software: PyCharm
+import logging
 
 
 def big_file_download(file_name, file, chunk_size=16 * 2 ** 10):
@@ -17,7 +18,7 @@ def big_file_download(file_name, file, chunk_size=16 * 2 ** 10):
     :return:
     """
 
-    def file_iterator(file_name, file, chunk_size=chunk_size):
+    def file_iterator(file_name=file_name, file=file, chunk_size=chunk_size):
         with open(file_name, 'wb') as f:
             while True:
                 c = file.read(chunk_size)
@@ -30,5 +31,5 @@ def big_file_download(file_name, file, chunk_size=16 * 2 ** 10):
         return file_iterator(file_name)
     except BaseException as e:
         # 没有对应的文件
-        print(str(FileNotFoundError))
+        logging.error(str(FileNotFoundError))
     return None
