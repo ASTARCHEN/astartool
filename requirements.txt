@@ -5,3 +5,5 @@ xlwt
 pillow
 six
 wrapt
+xlrd
+scipy>=1.0.1

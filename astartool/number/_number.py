@@ -59,7 +59,7 @@ def get_primes(number):
     li_number = []
     for i in range(2, number):
         if w[i]:
-            w[i * i::i] = [False] * (len(range(i*i, number, i)))
+            w[i * i::i] = [False] * (len(range(i * i, number, i)))
             li_number.append(i)
     return li_number
 
@@ -147,4 +147,3 @@ def equals_zero_any(matrix, eps=1e-8):
     :return:
     """
     return np.any(equals_zero(matrix, eps=eps))
-

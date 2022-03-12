@@ -276,13 +276,13 @@ def model_to_dict(model_path, encoding='utf-8'):
     :param encoding:
     :return:
     """
-    ## 读取模型文件
+    # 读取模型文件
     with open(model_path, 'r', encoding=encoding) as f:
         lines = f.readlines()
     class_name = ''
     dictionary = OrderedDict({})  # 待返回的结果
     item = OrderedDict({})  # 待处理的字典
-    ## 分行处理
+    # 分行处理
     for line in lines:
         if line.startswith('#'):
             # 过滤掉注释
