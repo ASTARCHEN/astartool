@@ -12,6 +12,7 @@ __author__ = 'A.Star'
 
 import os
 import sys
+import pathlib
 
 from setuptools import setup as _setup
 
@@ -39,7 +40,7 @@ def read_file(file_name='README.md', encoding='utf-8'):
     :param encoding: 文件编码，默认utf-8
     :return:
     """
-    return open(file_name, 'r', encoding=encoding).read()
+    return pathlib.Path(file_name).open('r', encoding=encoding).read()
 
 
 def __alart_setup():

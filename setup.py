@@ -13,15 +13,6 @@ from astartool.setuptool import load_install_requires, get_version, setup, read_
 
 osp = os.path
 
-# def read_file(file_name='README.md', encoding='utf-8'):
-#     """
-#     读取本地文件
-#     :param file_name: 文件名
-#     :param encoding: 文件编码，默认utf-8
-#     :return:
-#     """
-#     return open(osp.join(osp.dirname(__file__), file_name), 'r', encoding=encoding).read()
-
 
 setup(
     name='astartool',
