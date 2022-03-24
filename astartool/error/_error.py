@@ -4,6 +4,16 @@ class MethodNotFoundError(NotImplementedError):
         super().__init__(*args)
 
 
-class ParameterError(ValueError):
+class ParameterTypeError(TypeError):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+
+class ParameterValueError(ValueError):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+
+class ParameterError(ParameterTypeError, ParameterValueError):
     def __init__(self, *args):
         super().__init__(*args)

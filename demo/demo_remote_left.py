@@ -12,7 +12,7 @@ __author__ = 'A.Star'
 
 from astartool.number import rotate_left as rotate_left_2
 from astartool.common import BIT_EACH
-import time
+from astartool.project import time_clock
 import random
 
 
@@ -25,19 +25,19 @@ if __name__ == '__main__':
     itor_number = 100
     count = 0
     for itor in range(itor_number):
-        init = time.clock()
+        init = time_clock()
         n = 100000
         a = [random.randint(0, 1 << 32) for i in range(n)]
         k = [random.randint(0, 32) for i in range(n)]
         t1, t2 = [], []
-        start1 = time.clock()
+        start1 = time_clock()
         for i in range(n):
             t1.append(rotate_left(a[i], k[i]))
-        end1 = time.clock()
-        start2 = time.clock()
+        end1 = time_clock()
+        start2 = time_clock()
         for i in range(n):
             t2.append(rotate_left_2(a[i], k[i]))
-        end2 = time.clock()
+        end2 = time_clock()
         assert t1 == t2
         time1 = end1 - start1
         time2 = end2 - start2

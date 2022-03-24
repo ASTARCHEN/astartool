@@ -11,6 +11,7 @@
 __author__ = 'A.Star'
 
 import datetime
+import logging
 import os
 import re
 import sys
@@ -103,16 +104,16 @@ def file_to_lines(src_file,
     :return:
     """
     with open(to_file, 'a+', encoding='utf-8') as outfile, open(src_file, 'rb') as infile:
-        lines = infile.readlines()
+        bytes_lines = infile.readlines()
         try:
-            lines = [each_line.decode('gbk') for each_line in lines]
-        except BaseException as e:
+            lines = [each_line.decode('gbk') for each_line in bytes_lines]
+        except UnicodeDecodeError as e:
             # print(e)
             try:
-                lines = [each_line.decode('utf8') for each_line in lines]
-            except BaseException as e:
+                lines = [each_line.decode('utf8') for each_line in bytes_lines]
+            except UnicodeDecodeError as e:
                 # print(e)
-                print("encode exception")
+                logging.error("encode exception")
                 return
                 # lines = [each_line.decode('unicode') for each_line in lines]
         outfile.write(src_file)

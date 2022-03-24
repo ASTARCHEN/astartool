@@ -9,33 +9,35 @@
 
 from astartool.data_structure.linked_list import *
 
-# a = LinkedList((1, 2))
-# print(a == [1,2,3])
-# print(a == (1,2,3))
-# print(a[0])
-# print(a[1])
-# print(a[2])
-# b = (a + 3)
-# b.print()
-# for each in b:
-#     print(each)
+a = LinkedList((1, 2))
+print(a == [1, 2, 3])
+print(a == (1, 2, 3))
+print(a[0])
+print(a[1])
+try:
+    print(a[2])
+except ParameterValueError as e:
+    pass
+b = (a + 3)
+b.print()
+for each in b:
+    print(each)
 
-
-# c = a.copy()
-# c.print()
-# assert c == [1, 2]
-# a.extend([4, 5, 6, 7])
-# assert a == [1, 2, 4, 5, 6, 7]
-# a.print()
-# a.reverse()
-# a.print()
-# assert a == [7, 6, 5, 4, 2, 1]
-# a.clear()
-# print("clear")
-# a.print()
-# a.append([1, 2, 3, 4, 5, 6, 7])
-# a.append((2, 3, 4))
-# a.print()
+c = a.copy()
+c.print()
+assert c == [1, 2]
+a.extend([4, 5, 6, 7])
+assert a == [1, 2, 4, 5, 6, 7]
+a.print()
+a.reverse()
+a.print()
+assert a == [7, 6, 5, 4, 2, 1]
+a.clear()
+print("clear")
+a.print()
+a.append([1, 2, 3, 4, 5, 6, 7])
+a.append((2, 3, 4))
+a.print()
 a = LinkedList(list(range(100)))
 a.print()
 b = a[:10]

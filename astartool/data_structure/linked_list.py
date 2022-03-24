@@ -9,7 +9,7 @@
 
 
 from collections import Iterable, Sized
-from astartool.error import MethodNotFoundError
+from astartool.error import MethodNotFoundError, ParameterValueError
 
 
 class DataNode(object):
@@ -250,7 +250,7 @@ class LinkedList(Iterable, Sized):
         """ x.__getitem__(y) <==> x[y] """
         if isinstance(y, int):
             if y >= len(self) or y < -len(self):
-                raise ValueError("list out of range")
+                raise ParameterValueError("list out of range")
             if y > 0:
                 if y > len(self) // 2:
                     y = y - len(self)
@@ -311,7 +311,7 @@ class LinkedList(Iterable, Sized):
                     break
             return li
         else:
-            raise Exception('method not fount')
+            raise MethodNotFoundError('method not fount')
 
     #
     # def __ge__(self, *args, **kwargs):  # real signature unknown
