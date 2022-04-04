@@ -26,8 +26,11 @@ queue: 链式队列
 错误的包
    
 MethodNotFoundError: 方法错误
+
 ParameterError: 参数错误
+
 ParameterTypeError: 参数类型错误
+
 ParameterValueError: 参数值错误
 
 3. exception
@@ -37,8 +40,11 @@ ParameterValueError: 参数值错误
 4. file
 
   downloadhelper: 大文件下载
+
   excelhelper: excel生成
+
   filehelper: 简单的文件哈希、文件简单操作
+
   imagehelper: 简单的图片转化,目前对base64转image
 
 5. number

@@ -43,7 +43,7 @@ def read_file(file_name='README.md', encoding='utf-8'):
     return pathlib.Path(file_name).open('r', encoding=encoding).read()
 
 
-def __alart_setup():
+def __dialog_setup():
     print("Version is not final, do you really wants to setup it?")
     print("[Y] yes.")
     print("[N] no.")
