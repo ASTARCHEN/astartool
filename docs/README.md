@@ -5,7 +5,7 @@
 - doc生成命令
 
 ```shell
-pydoc-markdown -I 到项目层的文件路径 -m astartool
+pydoc-markdown -p astartool > docs/index.md
 ```
 
 ## 注意
