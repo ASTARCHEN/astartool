@@ -94,11 +94,15 @@ def get_git_changeset():
     return timestamp.strftime('%Y%m%d%H%M%S')
 
 
-def get_version_tuple(version):
+def get_version_tuple(version: (bytes, str)):
     """
     Return a tuple of version numbers (e.g. (1, 2, 3)) from the version
     string (e.g. '1.2.3').
     """
+    if isinstance(version, bytes):
+        version = version.lstrip(b"Vv")
+    else:
+        version = version.lstrip("Vv")
     loose_version = LooseVersion(version)
     version_numbers = []
     for item in loose_version.version:

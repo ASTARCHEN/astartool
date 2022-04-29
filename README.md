@@ -8,7 +8,7 @@
 [![wheel](https://img.shields.io/pypi/wheel/astartool.svg)](https://pypi.python.org/pypi/astartool)
 [![CodeFactor](https://www.codefactor.io/repository/github/astarchen/astartool/badge/main)](https://www.codefactor.io/repository/github/astarchen/astartool/overview/main)
 ![status](https://img.shields.io/pypi/status/astartool.svg)
-[![wiki](https://img.shields.io/badge/wiki-v0.1.0-green)](https://gitee.com/hoops/astartool.wiki.git)
+[![wiki](https://img.shields.io/badge/wiki-v0.1.0-green)](https://github.com/ASTARCHEN/astartool/wiki)
 
 A.Star私房工具包
 

@@ -10,10 +10,6 @@
 
 from collections import Iterable, Sized
 
-__all__ = [
-    'KeyMap'
-]
-
 
 class KeyMap(Iterable, Sized):
     def __init__(self, seq: Iterable = [], *args, **kwargs):

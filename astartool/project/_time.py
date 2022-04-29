@@ -7,7 +7,7 @@ import wrapt
 
 from astartool.project import is_windows
 
-time_clock = time.time if is_windows() else time.clock
+time_clock = time.time if is_windows() else time.time
 
 
 @wrapt.decorator
