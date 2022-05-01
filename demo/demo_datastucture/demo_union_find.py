@@ -40,10 +40,10 @@ class TimestampSynchronization(UnionFind):
             elif self.rank[rx] < self.rank[ry]:  # rank大的集合合并rank小的集合
                 rx, ry = ry, rx  # 这里进行交换是为了保证rx的rank大于ry的rank，方便下面合并
                 dt = -dt
-        self.parent[ry] = rx  # rx 合并 ry
-        self.timedelta[ry] = dt
-        if self.rank[rx] == self.rank[ry]:
-            self.rank[rx] += 1
+            self.parent[ry] = rx  # rx 合并 ry
+            self.timedelta[ry] = dt
+            if self.rank[rx] == self.rank[ry]:
+                self.rank[rx] += 1
 
 
 if __name__ == '__main__':
