@@ -28,9 +28,14 @@ def load_install_requires(filepath='requirements.txt', encoding='utf-8'):
     :param encoding:
     :return:
     """
-    with open(filepath, 'r', encoding=encoding) as f:
-        lines = f.readlines()
-    return [line.strip() for line in lines if not line.strip().startswith('#')]
+    file = pathlib.Path(filepath)
+    if file.exists():
+        with file.open('r', encoding=encoding) as f:
+            lines = f.readlines()
+        requirements = (line.split('#')[0].strip() for line in lines if not line.strip().startswith('#') and not line.startswith('-'))
+        return [req for req in requirements if requirements]
+    else:
+        raise FileNotFoundError("file not found")
 
 
 def read_file(file_name='README.md', encoding='utf-8'):
