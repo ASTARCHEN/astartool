@@ -17,6 +17,8 @@ import six
 
 from astartool.number import ishex
 from astartool.random import random_digit_string
+from astartool.common import _PROTECTED_TYPES
+
 
 is_hex = ishex
 
@@ -24,11 +26,14 @@ __all__ = [
     'is_email',
     'is_mobile',
     'is_ip',
+    'is_url',
     'generate_number',
     'check_number',
     'force_bytes',
+    'force_str',
     'to_binary',
-    'to_text'
+    'to_text',
+    'has_Chinese'
 ]
 
 
@@ -63,6 +68,27 @@ def is_mobile(mobile):
     return re.match(regex, mobile) is not None
 
 
+def is_url(url):
+    """
+    参考 https://blog.csdn.net/qq_20446879/article/details/86539414
+    """
+    regex = "^((https|http|ftp|rtsp|mms)?://)?(([0-9a-z_!~*'().&=+$%-]+: )" \
+            "?[0-9a-z_!~*'().&=+$%-]+@)?(([0-9]{1,3}\\.){3}[0-9]{1,3}" \
+            "|" \
+            "([0-9a-z_!~*'()-]+\\.)*" \
+            "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\\.[a-z]{2,6})(:[0-9]{1,5})?((/?)|(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$"
+    return re.match(regex, url.lower()) is not None
+
+
+def is_protected_type(obj):
+    """Determine if the object instance is of a protected type.
+
+    Objects of protected types are preserved as-is when passed to
+    force_str(strings_only=True).
+    """
+    return isinstance(obj, _PROTECTED_TYPES)
+
+
 def generate_number(k: int = 18):
     """
     k前14位是时间，后2位校验，中间是随机数。随机数应该不少于2位
@@ -80,6 +106,13 @@ def generate_number(k: int = 18):
     c1 = str((-a1) % 10)
     c2 = str((-a2) % 10)
     return header + c1 + c2
+
+
+def has_Chinese(text: str):
+    """
+    判断是否存在中文字符
+    """
+    return re.match('.*?[\u4e00-\u9fff].*?', text) is not None
 
 
 def check_number(number):
@@ -123,7 +156,7 @@ def force_str(s, encoding='utf-8', strings_only=False, errors='strict'):
         else:
             s = str(s)
     except UnicodeDecodeError as e:
-        raise DjangoUnicodeDecodeError(s, *e.args)
+        raise e
     return s
 
 

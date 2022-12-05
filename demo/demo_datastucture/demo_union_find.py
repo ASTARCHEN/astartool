@@ -47,7 +47,7 @@ class TimestampSynchronization(UnionFind):
 
 
 if __name__ == '__main__':
-    li = ["v0", "v1", "v2", "v3", "v4"]
+    li = ["v1", "v2", "v3", "v4", "v5"]
     union_find = TimestampSynchronization.init_by_list(li)
     print(union_find.timedelta)
     union_find.merge(0, 1, 1.0)

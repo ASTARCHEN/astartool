@@ -9,6 +9,9 @@
 
 
 __author__ = 'A.Star'
+
+import datetime
+from decimal import Decimal
 from enum import Enum
 import logging
 from astartool.data_structure.keymap import KeyMap
@@ -196,3 +199,7 @@ LOG_LEVEL_MAP_INT2STR = {
     logging.DEBUG: 'DEBUG',
     logging.FATAL: 'FATAL',
 }
+
+_PROTECTED_TYPES = (
+    type(None), int, float, Decimal, datetime.datetime, datetime.date, datetime.time,
+)
