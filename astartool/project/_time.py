@@ -11,7 +11,7 @@ time_clock = time.time if is_windows() else time.time
 
 
 @wrapt.decorator
-def coast_time(func, instacne, args, kwargs):
+def cost_time(func, instacne, args, kwargs):
     def fun(*args, **kwargs):
         t = time.perf_counter()
         result = func(*args, **kwargs)
@@ -28,3 +28,6 @@ def coast_time(func, instacne, args, kwargs):
         return func_async(*args, **kwargs)
     else:
         return fun(*args, **kwargs)
+
+
+coast_time = cost_time

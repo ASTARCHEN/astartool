@@ -8,7 +8,7 @@
 # @Software: PyCharm
 
 
-from astartool.project._decorators import std_logging, file_logging
+from astartool.project import std_logging, file_logging
 
 
 @std_logging()

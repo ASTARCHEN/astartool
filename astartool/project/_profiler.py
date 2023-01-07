@@ -3,7 +3,7 @@
 import cProfile
 import pstats
 import os
-
+import wrapt
 
 
 def do_cprofile(filename):
