@@ -46,7 +46,7 @@ class TimestampSynchronization(UnionFind):
                 self.rank[rx] += 1
 
 
-if __name__ == '__main__':
+def demo_1():
     li = ["v1", "v2", "v3", "v4", "v5"]
     union_find = TimestampSynchronization.init_by_list(li)
     print(union_find.timedelta)
@@ -79,3 +79,22 @@ if __name__ == '__main__':
 
     for i in range(5):
         print(union_find.find(i))
+
+
+if __name__ == '__main__':
+    def distance(p1, p2):
+        return abs(p1[0] - p2[0]) ** 2 + abs(p1[1] - p2[1]) ** 2
+    li = [(1, 0), (2, 2), (1, 0), (10, 20), (10, 21), (11, 19), (0, 0)]
+    unifind = UnionFind.init_by_list(li)
+
+    len_list = len(li)
+    klass_set = {0}
+    for i, p1 in enumerate(li[1:], start=1):
+        for j in klass_set:
+            p2 = li[j]
+            if distance(p1, p2) < 3 * 3:
+                unifind.merge(i, j)
+                break
+        klass_set.add(unifind.find(i))
+    print(unifind.parent)
+    print(unifind.find(0))
