@@ -8,7 +8,11 @@
 # @Software: PyCharm
 
 
-from collections import Iterable, Sized
+from astartool.setuptool import PY310
+if PY310:
+    from collections.abc import Iterable, Sized
+else:
+    from collections import Iterable, Sized
 
 
 class KeyMap(Iterable, Sized):

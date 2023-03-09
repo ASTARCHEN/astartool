@@ -15,7 +15,6 @@ from astartool.setuptool import load_install_requires, get_version, setup, read_
 
 osp = os.path
 
-
 setup(
     name='astartool',
     version=get_version(version),
@@ -42,6 +41,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Topic :: Software Development :: Libraries'
     ],
     install_requires=load_install_requires()

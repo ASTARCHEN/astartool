@@ -7,8 +7,12 @@
 # @time: 2020/5/21 17:24
 # @Software: PyCharm
 
+from astartool.setuptool import PY310
+if PY310:
+    from collections.abc import Iterable, Sized
+else:
+    from collections import Iterable, Sized
 
-from collections import Iterable, Sized
 from astartool.error import MethodNotFoundError, ParameterValueError
 
 
