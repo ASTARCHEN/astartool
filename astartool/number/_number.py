@@ -34,8 +34,8 @@ def gcd(a: int, b: int):
     :param b:
     :return:
     """
-    while b != 1:
-        a, b = divmod(a, b)
+    while b != 0:
+        a, b = b, a % b
     return a
 
 
