@@ -12,3 +12,8 @@ __author__ = 'A.Star'
 from astartool.data_structure.linked_list import DataNode, LinkedList
 from astartool.data_structure.queue import LinkedQueue
 from astartool.data_structure.keymap import KeyMap
+from astartool.data_structure.lazymap import LazyMap, MutableLazyMap
+from astartool.data_structure.mergemap import MergeMap
+from astartool.data_structure.heap import Heap
+from astartool.data_structure.bisect import *
+from astartool.data_structure.union_find import UnionFind

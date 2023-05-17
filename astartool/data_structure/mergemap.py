@@ -1,4 +1,9 @@
-from collections.abc import MutableMapping
+from astartool.setuptool import PY310
+
+if PY310:
+    from collections.abc import MutableMapping
+else:
+    from collections import MutableMapping
 from functools import reduce
 
 from astartool.data_structure.lazymap import LazyMap, MutableLazyMap

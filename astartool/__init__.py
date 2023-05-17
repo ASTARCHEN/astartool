@@ -12,7 +12,7 @@ __author__ = 'A.Star'
 
 from astartool.setuptool import get_version
 
-version = (0, 1, 1, 'post', 1)
+version = (0, 1, 2, 'final', 0)
 __version__ = get_version(version)
 __all__ = [
     'common',
