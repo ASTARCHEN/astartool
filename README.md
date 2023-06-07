@@ -40,13 +40,13 @@ ParameterValueError: 参数值错误
 
 4. file
 
-  downloadhelper: 大文件下载
+downloadhelper: 大文件下载
 
-  excelhelper: excel生成
+excelhelper: excel生成
 
-  filehelper: 简单的文件哈希、文件简单操作
+filehelper: 简单的文件哈希、文件简单操作
 
-  imagehelper: 简单的图片转化,目前对base64转image
+imagehelper: 简单的图片转化,目前对base64转image
 
 5. number
 

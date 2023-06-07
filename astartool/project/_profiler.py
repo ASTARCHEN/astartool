@@ -7,15 +7,11 @@ import wrapt
 
 
 def do_cprofile(filename):
-    """
-    性能分析装饰器定义
-    params filename: 导出文件文件名
-    """
-    @wrapt.decorator
-    def profiled_func(func, instance, args, kwargs):
-        # Flag for do profiling or not.
-        DO_PROF = os.getenv("PROFILING")
-        if DO_PROF:
+    # 性能分析装饰器定义
+    # gprof2dot -f pstats "D:\fcson.pfl" | "D:\Program Files\Graphviz2.38\bin\dot" -Tpng -o "D:\xxx.png"
+    def wrapper(func):
+        def profiled_func(*args, **kwargs):
+            # Flag for do profiling or not.
             profile = cProfile.Profile()
             profile.enable()
             result = func(*args, **kwargs)
@@ -24,9 +20,9 @@ def do_cprofile(filename):
             sortby = "tottime"
             ps = pstats.Stats(profile).sort_stats(sortby)
             ps.dump_stats(filename)
-        else:
-            result = func(*args, **kwargs)
-        return result
+            return result
 
-    return profiled_func
+        return profiled_func
+
+    return wrapper
 
