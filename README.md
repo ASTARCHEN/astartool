@@ -15,6 +15,26 @@ A.Star私房工具包
 唉~ 写了辣么多代码，总觉得过于臃肿。
 我把简单的代码能重复利用的摘出来作为工具包，以后就引用他了
 
+## 一、安装
+- pip 安装
+```commandline
+pip install astartool
+```
+- 源码安装
+1. 从源码库里面下载合适的版本
+- gitee: https://gitee.com/hoops/astartool
+- github: https://github.com/ASTARCHEN/astartool
+
+2. 下载依赖包
+```commandline
+pip install -r requirements.txt
+```
+3. 安装rar工具【可选】
+filehelper可选
+从 [链接](https://www.rarlab.com/download.htm) 下载rar工具并加将rar工具设置进环境变量
+
+## 二、源码结构
+
 目前此代码包含一下几部分:
 
 1. data_structure

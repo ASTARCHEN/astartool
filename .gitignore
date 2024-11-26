@@ -105,4 +105,12 @@ venv.bak/
 
 # IDE
 .idea/
+
+# data
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.rar
 ./docs/version_release.md
