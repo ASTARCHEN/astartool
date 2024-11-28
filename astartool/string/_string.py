@@ -108,14 +108,21 @@ def generate_number(k: int = 18):
     return header + c1 + c2
 
 
-def has_Chinese(text: str):
+def is_valid_number(x: str) -> bool:
+    """
+    是否为数字（整数，分数，小数）
+    """
+    return bool(re.match(r"-?\d+((\.\d+)|/\d+)?", x))
+
+
+def has_Chinese(text: str) -> bool:
     """
     判断是否存在中文字符
     """
     return re.match('.*?[\u4e00-\u9fff].*?', text) is not None
 
 
-def check_number(number):
+def check_number(number) -> bool:
     return not ((sum((int(i) for i in number[::2])) % 10) and (sum((int(i) for i in number[1::2])) % 10))
 
 
