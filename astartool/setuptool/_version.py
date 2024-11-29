@@ -18,6 +18,10 @@ PY38 = sys.version_info >= (3, 8)
 PY39 = sys.version_info >= (3, 9)
 PY310 = sys.version_info >= (3, 10)
 PY311 = sys.version_info >= (3, 11)
+PY312 = sys.version_info >= (3, 12)
+PY313 = sys.version_info >= (3, 13)
+PY314 = sys.version_info >= (3, 14)
+PY315 = sys.version_info >= (3, 15)
 
 
 def get_version(version=None):
@@ -38,7 +42,7 @@ def get_version(version=None):
             sub = '.dev%s' % git_changeset
 
     elif version[3] != 'final':
-        mapping = {'alpha': 'a', 'beta': 'b', 'rc': 'rc', 'post': 'post'}
+        mapping = {'alpha': 'a', 'beta': 'b', 'rc': 'rc', 'post': 'post', 'dev': 'dev'}
         sub = mapping[version[3]] + str(version[4])
 
     return main + sub
@@ -59,8 +63,16 @@ def get_complete_version(version=None):
     if version is None:
         from astartool import version
     else:
-        assert len(version) == 5
-        assert version[3] in ('alpha', 'beta', 'rc', 'final', 'post')
+        length = len(version)
+        assert length <= 5
+        li = [0, 0, 0, 'final', 0]
+        if length >= 3 and isinstance(version[2], str):
+            li[:2] = version[:2]
+            li[3:] = version[2:]
+        else:
+            li[:len(version)] = version
+        version = tuple(li)
+        assert version[3] in ('alpha', 'beta', 'rc', 'final', 'post', 'dev')
 
     return version
 

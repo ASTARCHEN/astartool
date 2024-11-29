@@ -32,7 +32,7 @@ class TestLazyDictionary(TestCase):
 
     def test_repr(self):
         d = LazyMap({'a': {'b': 1}})
-        self.assertEqual(repr(d), "LazyDictionary({'a': {'b': 1}})")
+        self.assertEqual(repr(d), "LazyMap({'a': {'b': 1}})")
 
     def test_atomic_evaluation(self):
         d = LazyMap()
